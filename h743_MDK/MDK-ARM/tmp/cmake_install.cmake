@@ -1,4 +1,4 @@
-# Install script for directory: D:/My_Git/Stm32H743_TI_Cup/h743_MDK/MDK-ARM/tmp
+# Install script for directory: D:/My_Git/2022F/h743_MDK/MDK-ARM/tmp
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -35,7 +35,7 @@ endif()
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "D:/My_Git/Stm32H743_TI_Cup/h743_MDK/MDK-ARM/tmp/install_local_manifest.txt"
+  file(WRITE "D:/My_Git/2022F/h743_MDK/MDK-ARM/tmp/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()
 if(CMAKE_INSTALL_COMPONENT)
@@ -51,6 +51,6 @@ else()
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "D:/My_Git/Stm32H743_TI_Cup/h743_MDK/MDK-ARM/tmp/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "D:/My_Git/2022F/h743_MDK/MDK-ARM/tmp/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

@@ -4,6 +4,6 @@
 
 method=source_dir
 command=
-source_dir=D:/My_Git/Stm32H743_TI_Cup/h743_MDK/MDK-ARM/tmp/h743_hal+h743_hal
+source_dir=D:/My_Git/2022F/h743_MDK/MDK-ARM/tmp/h743_hal+h743_hal
 work_dir=
 

@@ -94,7 +94,7 @@ void FreqMeasure_Process(FreqMeasure *self, Wave_Struct *wave) {
     if (self->mode == FMODE_PERIOD) {
         float f = freq_read_period(self);
         if (f >= 0.0f) {
-            wave->Freq = f;
+            wave->carrier_freq = f;
 
             if (f > self->switch_high_thr) {
                 self->mode = FMODE_COUNT;
@@ -115,12 +115,12 @@ void FreqMeasure_Process(FreqMeasure *self, Wave_Struct *wave) {
                 uint32_t total_pulses = __HAL_TIM_GET_COUNTER(self->htim);
 
                 if (delta_ms > 0) {
-                    wave->Freq = (float)(((double)total_pulses * 1000.0) / (double)delta_ms);
+                    wave->carrier_freq = (float)(((double)total_pulses * 1000.0) / (double)delta_ms);
                 }
 
                 self->measuring = 0;
 
-                if (wave->Freq < self->switch_low_thr) {
+                if (wave->carrier_freq < self->switch_low_thr) {
                     self->mode = FMODE_PERIOD;
                     freq_hw_switch(self, FMODE_PERIOD);
                 }

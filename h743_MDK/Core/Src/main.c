@@ -109,12 +109,14 @@ int main(void)
   MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
   Serial_RxInit(&huart3);
+
   ADC_Task_Init(&htim3, &hadc1);
   ADC_Task_Start();
-
-  Tasks_Init(&huart3);
-
-  Scheduler_Init();
+  // Tasks_Init(&huart3);
+    HMI_Init(&g_hmi, &huart3);
+    FreqMeasure_Init(&g_freq_measure, &htim2);
+    ADC_Task_Init(&htim3, &hadc1);
+    Scheduler_Init();
 // AD9959_Init();
 // AD9959_Set_All(CH0,100000,10000,0);
 // AD9959_Set_All(CH1,100000,10000,4096);

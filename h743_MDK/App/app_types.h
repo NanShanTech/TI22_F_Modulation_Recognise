@@ -22,10 +22,21 @@ typedef enum {
     WAVE_UNKNOWN        // 未知 / 初始状态
 } WaveType_t;
 
-/** 波形测量结果（频率 + 峰峰值 + 波形类型） */
+/** 调制类型枚举 */
+typedef enum {
+    MOD_FM = 0,     // 调频
+    MOD_AM,         // 调幅
+    MOD_CW          // 等幅报
+} ModType_t;
+
+/** 波形测量结果（载波 + 调制参数 + 波形类型） */
 typedef struct {
-    float   Freq;       // 频率 (Hz)
-    float   Vpp;        // 峰峰值 (V)
+    float     carrier_freq;   // 载波频率 (Hz)
+    float     mod_freq;       // 调制频率 (Hz)
+    ModType_t mod_type;       // 调制类型
+    float     mod_depth;      // 调制度
+    float     mod_vpp;        // 调制波形峰峰值 (V)
+
     WaveType_t Wave_type;
 } Wave_Struct;
 

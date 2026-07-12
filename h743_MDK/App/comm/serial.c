@@ -152,27 +152,46 @@ void HMI_WaveClear(HMI_Comm *self, const char *ctl, int ch)
 
 void HMI_SendInitScreen(HMI_Comm *self)
 {
-    HMI_SendStr(self, "t1.txt", "??");
-    HMI_SendStr(self, "t3.txt", "??");
-    HMI_SendStr(self, "t5.txt", "??");
-    HMI_SendStr(self, "t7.txt", "??");
+    HMI_SendStr(self, "t4.txt", "unknown");
+    HMI_SendStr(self, "t5.txt", "unknown");
+    HMI_SendStr(self, "t6.txt", "unknown");
+    HMI_SendStr(self, "t7.txt", "unknown");
 }
 
 void HMI_ReportWave(HMI_Comm *self, Wave_Struct *wave)
 {
     char buf[64];
 
-    if (wave->Freq < 1000.0f) {
-        snprintf(buf, sizeof(buf), "%.4f Hz", (double)wave->Freq);
-    } else if (wave->Freq < 1000000.0f) {
-        snprintf(buf, sizeof(buf), "%.4f KHz", (double)wave->Freq / 1000.0);
-    } else {
-        snprintf(buf, sizeof(buf), "%.5f MHz", (double)wave->Freq / 1000000.0);
+    /* t4.txt — 调制方式 */
+    switch (wave->mod_type) {
+        case MOD_FM: HMI_SendStr(self, "t4.txt", "FM"); break;
+        case MOD_AM: HMI_SendStr(self, "t4.txt", "AM"); break;
+        case MOD_CW: HMI_SendStr(self, "t4.txt", "CW"); break;
     }
-    HMI_SendStr(self, "t1.txt", buf);
 
-    // snprintf(buf, sizeof(buf), "%.2f mv", wave->Vpp);
-    // HMI_SendStr(self, "t3.txt", buf);
+    /* t5.txt — 调制度 */
+    snprintf(buf, sizeof(buf), "%.1f%%", (double)(wave->mod_depth * 100.0f));
+    HMI_SendStr(self, "t5.txt", buf);
+
+    /* t6.txt — 载波频率 */
+    if (wave->carrier_freq < 1000.0f) {
+        snprintf(buf, sizeof(buf), "%.4f Hz", (double)wave->carrier_freq);
+    } else if (wave->carrier_freq < 1000000.0f) {
+        snprintf(buf, sizeof(buf), "%.4f KHz", (double)wave->carrier_freq / 1000.0);
+    } else {
+        snprintf(buf, sizeof(buf), "%.5f MHz", (double)wave->carrier_freq / 1000000.0);
+    }
+    HMI_SendStr(self, "t6.txt", buf);
+
+    /* t7.txt — 调制频率 */
+    if (wave->mod_freq < 1000.0f) {
+        snprintf(buf, sizeof(buf), "%.4f Hz", (double)wave->mod_freq);
+    } else if (wave->mod_freq < 1000000.0f) {
+        snprintf(buf, sizeof(buf), "%.4f KHz", (double)wave->mod_freq / 1000.0);
+    } else {
+        snprintf(buf, sizeof(buf), "%.5f MHz", (double)wave->mod_freq / 1000000.0);
+    }
+    HMI_SendStr(self, "t7.txt", buf);
 }
 
 /* ================================================================
@@ -183,11 +202,11 @@ void Serial_ReportFreq(Wave_Struct *wave)
 {
     extern UART_HandleTypeDef huart1;
 
-    if (wave->Freq < 1000.0f) {
-        Serial_Printf(&huart1, 50, "Freq: %.5f Hz\r\n", (double)wave->Freq);
-    } else if (wave->Freq < 1000000.0f) {
-        Serial_Printf(&huart1, 50, "Freq: %.5f KHz\r\n", (double)wave->Freq / 1000.0);
+    if (wave->carrier_freq < 1000.0f) {
+        Serial_Printf(&huart1, 50, "Freq: %.5f Hz\r\n", (double)wave->carrier_freq);
+    } else if (wave->carrier_freq < 1000000.0f) {
+        Serial_Printf(&huart1, 50, "Freq: %.5f KHz\r\n", (double)wave->carrier_freq / 1000.0);
     } else {
-        Serial_Printf(&huart1, 50, "Freq: %.5f MHz\r\n", (double)wave->Freq / 1000000.0);
+        Serial_Printf(&huart1, 50, "Freq: %.5f MHz\r\n", (double)wave->carrier_freq / 1000000.0);
     }
 }
