@@ -1,0 +1,40 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "D:/My_Git/Stm32H743_TI_Cup/h743_MDK/MDK-ARM/tmp/CMakeFiles/h743_hal+h743_hal-executes"
+		},
+		{
+			"file" : "D:/My_Git/Stm32H743_TI_Cup/h743_MDK/MDK-ARM/tmp/CMakeFiles/h743_hal+h743_hal-executes.rule"
+		},
+		{
+			"file" : "D:/My_Git/Stm32H743_TI_Cup/h743_MDK/MDK-ARM/tmp/h743_hal+h743_hal/src/h743_hal+h743_hal-stamp/h743_hal+h743_hal-executes.rule"
+		},
+		{
+			"file" : "D:/My_Git/Stm32H743_TI_Cup/h743_MDK/MDK-ARM/tmp/h743_hal+h743_hal/src/h743_hal+h743_hal-stamp/h743_hal+h743_hal-build.rule"
+		},
+		{
+			"file" : "D:/My_Git/Stm32H743_TI_Cup/h743_MDK/MDK-ARM/tmp/h743_hal+h743_hal/src/h743_hal+h743_hal-stamp/h743_hal+h743_hal-configure.rule"
+		},
+		{
+			"file" : "D:/My_Git/Stm32H743_TI_Cup/h743_MDK/MDK-ARM/tmp/h743_hal+h743_hal/src/h743_hal+h743_hal-stamp/h743_hal+h743_hal-patch.rule"
+		},
+		{
+			"file" : "D:/My_Git/Stm32H743_TI_Cup/h743_MDK/MDK-ARM/tmp/h743_hal+h743_hal/src/h743_hal+h743_hal-stamp/h743_hal+h743_hal-update.rule"
+		},
+		{
+			"file" : "D:/My_Git/Stm32H743_TI_Cup/h743_MDK/MDK-ARM/tmp/h743_hal+h743_hal/src/h743_hal+h743_hal-stamp/h743_hal+h743_hal-download.rule"
+		},
+		{
+			"file" : "D:/My_Git/Stm32H743_TI_Cup/h743_MDK/MDK-ARM/tmp/h743_hal+h743_hal/src/h743_hal+h743_hal-stamp/h743_hal+h743_hal-mkdir.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"h743_hal+h743_hal"
+		],
+		"name" : "h743_hal+h743_hal-executes"
+	}
+}

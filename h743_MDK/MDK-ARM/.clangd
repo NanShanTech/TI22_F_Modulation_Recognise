@@ -1,0 +1,5 @@
+CompileFlags:
+  CompilationDatabase: d:\My_Git\Stm32H743_TI_Cup\h743_MDK\MDK-ARM\out\h743_hal\h743_hal
+  Add:
+    - -include
+    - d:\My_Git\Stm32H743_TI_Cup\h743_MDK\MDK-ARM\out\h743_hal\h743_hal\compile_macros.h

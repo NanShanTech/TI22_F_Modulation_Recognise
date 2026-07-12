@@ -1,0 +1,12 @@
+{
+    "configurations": [
+        {
+            "name": "STM32H743_AC6",
+            "compileCommands": "${workspaceFolder}/MDK-ARM/out/h743_hal/h743_hal/compile_commands.json",
+            "intelliSenseMode": "arm",
+            "cStandard": "c99",
+            "compilerPath": "d:/Users/47306/AppData/Roaming/SPB_Data/.vcpkg/artifacts/2139c4c6/compilers.arm.armclang/6.24.0/bin/armclang.exe"
+        }
+    ],
+    "version": 4
+}
