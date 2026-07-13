@@ -10,8 +10,7 @@ def am_modulation(
     modulation_amp: float,
 ) -> np.ndarray:
     Ts = 1 / fs_hz
-    time_seq = np.arange(0, 1, Ts)
-    time_seq = time_seq[0:n_pts]
+    time_seq = np.arange(n_pts) * Ts
     carrier_seq = carrier_amp * np.sin(2 * np.pi * carrier_freq * time_seq)
     modulation_seq = modulation_amp * np.sin(2 * np.pi * modulation_freq * time_seq)
     am_signal = (1 + modulation_seq) * carrier_seq
@@ -28,11 +27,10 @@ def fm_modulation(
     kf: float = 10000000,
 ) -> np.ndarray:
     Ts = 1 / fs_hz
-    time_seq = np.arange(0, 1, Ts)
-    time_seq = time_seq[0:n_pts]
-    modulation_seq = modulation_amp * np.sin(2 * np.pi * carrier_freq * time_seq)
+    time_seq = np.arange(n_pts) * Ts
+    modulation_seq = modulation_amp * np.sin(2 * np.pi * modulation_freq * time_seq)
     modulation_integral = np.cumsum(modulation_seq) / fs_hz
-    fm_signal = np.cos(
+    fm_signal = carrier_amp * np.cos(
         2 * np.pi * carrier_freq * time_seq + 2 * np.pi * kf * modulation_integral
     )
     return fm_signal
