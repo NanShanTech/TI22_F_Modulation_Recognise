@@ -63,7 +63,7 @@ cbuild-run:
   debugger:
     name: CMSIS-DAP@pyOCD
     protocol: swd
-    clock: 5000000
+    clock: 10000000
     dbgconf: ../.cmsis/h743_hal+h743_hal.dbgconf
     gdbserver:
       - port: 3333

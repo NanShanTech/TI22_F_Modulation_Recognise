@@ -15,6 +15,7 @@
                     ]
                 }
             },
+            "problemMatcher": [],
             "args": [
                 "erase",
                 "--probe",
@@ -22,8 +23,7 @@
                 "--chip",
                 "--cbuild-run",
                 "${command:cmsis-csolution.getCbuildRunFile}"
-            ],
-            "problemMatcher": []
+            ]
         },
         {
             "label": "CMSIS Load",
@@ -39,14 +39,14 @@
                     ]
                 }
             },
+            "problemMatcher": [],
             "args": [
                 "load",
                 "--probe",
                 "cmsisdap:",
                 "--cbuild-run",
                 "${command:cmsis-csolution.getCbuildRunFile}"
-            ],
-            "problemMatcher": []
+            ]
         },
         {
             "label": "CMSIS Run",

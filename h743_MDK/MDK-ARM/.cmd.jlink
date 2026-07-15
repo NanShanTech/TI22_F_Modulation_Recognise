@@ -1,0 +1,3 @@
+Connect  
+LoadFile "out/h743_hal/h743_hal/h743_hal.axf"  
+Exit  

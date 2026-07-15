@@ -156,57 +156,53 @@ void HMI_SendInitScreen(HMI_Comm *self)
     HMI_SendStr(self, "t5.txt", "unknown");
     HMI_SendStr(self, "t6.txt", "unknown");
     HMI_SendStr(self, "t7.txt", "unknown");
+    HMI_SendStr(self, "t11.txt", "unknown");
 }
 
 void HMI_ReportWave(HMI_Comm *self, Wave_Struct *wave)
 {
+    extern UART_HandleTypeDef huart1;
     char buf[64];
+    const char *mod_str;
 
-    /* t4.txt — 调制方式 */
+    /* 调制方式字符串 */
     switch (wave->mod_type) {
-        case MOD_FM: HMI_SendStr(self, "t4.txt", "FM"); break;
-        case MOD_AM: HMI_SendStr(self, "t4.txt", "AM"); break;
-        case MOD_CW: HMI_SendStr(self, "t4.txt", "CW"); break;
+        case MOD_FM: mod_str = "FM"; break;
+        case MOD_AM: mod_str = "AM"; break;
+        case MOD_CW: mod_str = "CW"; break;
+        default:     mod_str = "default"; break;
     }
 
-    /* t5.txt — 调制度 */
+    /* ---- HMI 串口屏 (USART3) ---- */
+    HMI_SendStr(self, "t4.txt", mod_str);
+
     snprintf(buf, sizeof(buf), "%.1f%%", (double)(wave->mod_depth * 100.0f));
     HMI_SendStr(self, "t5.txt", buf);
 
-    /* t6.txt — 载波频率 */
     if (wave->carrier_freq < 1000.0f) {
-        snprintf(buf, sizeof(buf), "%.4f Hz", (double)wave->carrier_freq);
+        snprintf(buf, sizeof(buf), "%.2f Hz", (double)wave->carrier_freq);
     } else if (wave->carrier_freq < 1000000.0f) {
-        snprintf(buf, sizeof(buf), "%.4f KHz", (double)wave->carrier_freq / 1000.0);
+        snprintf(buf, sizeof(buf), "%.2f KHz", (double)wave->carrier_freq / 1000.0);
     } else {
-        snprintf(buf, sizeof(buf), "%.5f MHz", (double)wave->carrier_freq / 1000000.0);
+        snprintf(buf, sizeof(buf), "%.2f MHz", (double)wave->carrier_freq / 1000000.0);
     }
     HMI_SendStr(self, "t6.txt", buf);
 
-    /* t7.txt — 调制频率 */
     if (wave->mod_freq < 1000.0f) {
-        snprintf(buf, sizeof(buf), "%.4f Hz", (double)wave->mod_freq);
+        snprintf(buf, sizeof(buf), "%.2f Hz", (double)wave->mod_freq);
     } else if (wave->mod_freq < 1000000.0f) {
-        snprintf(buf, sizeof(buf), "%.4f KHz", (double)wave->mod_freq / 1000.0);
+        snprintf(buf, sizeof(buf), "%.2f KHz", (double)wave->mod_freq / 1000.0);
     } else {
-        snprintf(buf, sizeof(buf), "%.5f MHz", (double)wave->mod_freq / 1000000.0);
+        snprintf(buf, sizeof(buf), "%.2f MHz", (double)wave->mod_freq / 1000000.0);
     }
     HMI_SendStr(self, "t7.txt", buf);
+
+    // /* ---- VOFA 上位机 (USART1) ---- */
+    // Serial_Printf(&huart1, 50,
+    //     "Mod:%s Depth:%.1f%% Fc:%.1f Fm:%.1f\r\n",
+    //     mod_str,
+    //     (double)(wave->mod_depth * 100.0f),
+    //     (double)wave->carrier_freq,
+    //     (double)wave->mod_freq);
 }
 
-/* ================================================================
- * 四、VOFA 串口上报（USART1, 921600）
- * ================================================================ */
-
-void Serial_ReportFreq(Wave_Struct *wave)
-{
-    extern UART_HandleTypeDef huart1;
-
-    if (wave->carrier_freq < 1000.0f) {
-        Serial_Printf(&huart1, 50, "Freq: %.5f Hz\r\n", (double)wave->carrier_freq);
-    } else if (wave->carrier_freq < 1000000.0f) {
-        Serial_Printf(&huart1, 50, "Freq: %.5f KHz\r\n", (double)wave->carrier_freq / 1000.0);
-    } else {
-        Serial_Printf(&huart1, 50, "Freq: %.5f MHz\r\n", (double)wave->carrier_freq / 1000000.0);
-    }
-}

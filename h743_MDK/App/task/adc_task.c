@@ -71,7 +71,7 @@ void ADC_Task_SetSpeed(Wave_Struct *wave) {
 
 void ADC_Task_FFT(Wave_Struct *wave) {
     fft_prepare(g_adc_buffer, &g_fft_in);
-    wave->mod_vpp = find_vpp(&g_fft_in);
+    // wave->mod_vpp = find_vpp(&g_fft_in);
 
     fft_process(&g_fft_in, &g_fft_out);
     fft_normalize(&g_fft_out, 1.0f);

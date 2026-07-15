@@ -59,6 +59,5 @@ void HMI_WaveClear(HMI_Comm *self, const char *ctl, int ch);
 
 void HMI_SendInitScreen(HMI_Comm *self);
 void HMI_ReportWave(HMI_Comm *self, Wave_Struct *wave);
-void Serial_ReportFreq(Wave_Struct *wave);
 
 #endif

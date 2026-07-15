@@ -114,6 +114,7 @@ int main(void)
   ADC_Task_Start();
   // Tasks_Init(&huart3);
     HMI_Init(&g_hmi, &huart3);
+    HMI_SendInitScreen(&g_hmi);
     FreqMeasure_Init(&g_freq_measure, &htim2);
     ADC_Task_Init(&htim3, &hadc1);
     Scheduler_Init();

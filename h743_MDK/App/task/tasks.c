@@ -27,7 +27,6 @@ HMI_Comm    g_hmi;
 /* ---- 应用初始化 ---- */
 void Tasks_Init(UART_HandleTypeDef *huart_hmi)
 {
-
 }
 
 /* ---- 应用主处理（一帧完整流程：停ADC→FFT→重开ADC）---- */
@@ -51,17 +50,16 @@ void Task_10ms(uint16_t ticks)
     App_process();
 }
 
-/* 100ms 周期：HMI 刷新 + 串口频率上报 */
+/* 100ms 周期：*/
 void Task_100ms(void)
 {    
     FreqMeasure_Process(&g_freq_measure, &g_wave_info);
 }  
 
-/* 1 秒周期：预留 — 系统心跳 / 统计上报 */
+/* 1 秒周期：*/
 void Task_1sec(void)
 {
-     HMI_ReportWave(&g_hmi, &g_wave_info);
-     //Serial_ReportFreq(&g_wave_info);//发给电脑
+    HMI_ReportWave(&g_hmi, &g_wave_info);  /* 同时发给 HMI(USART3) 和 VOFA(USART1) */
 }
 
 
