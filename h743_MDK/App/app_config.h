@@ -62,4 +62,10 @@
 #define DSP_LMS_MU       0.01f     /* 步长因子，推荐 0.001~0.1                     */
                                     /* 大→收敛快、稳态误差大；小→收敛慢、误差小    */
 
+//带内积分参数
+#define FREQ_START 10000.0f
+#define FREQ_END 300000.0f
+#define CARRIER_FREQ 200000.0f
+#define ENV_CV_GATE 0.08f
+#define FREQ_CV_GATE 0.0177f
 #endif /* __APP_CONFIG_H */

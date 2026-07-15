@@ -2,6 +2,15 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "CMSIS Load+Run",
+            "problemMatcher": [],
+            "dependsOn": [
+                "CMSIS Load",
+                "CMSIS Run"
+            ],
+            "dependsOrder": "sequence"
+        },
+        {
             "label": "CMSIS Erase",
             "type": "shell",
             "command": "pyocd",
@@ -14,7 +23,6 @@
                     ]
                 }
             },
-            "problemMatcher": [],
             "args": [
                 "erase",
                 "--probe",
@@ -22,7 +30,8 @@
                 "--chip",
                 "--cbuild-run",
                 "${command:cmsis-csolution.getCbuildRunFile}"
-            ]
+            ],
+            "problemMatcher": []
         },
         {
             "label": "CMSIS Load",
@@ -37,14 +46,14 @@
                     ]
                 }
             },
-            "problemMatcher": [],
             "args": [
                 "load",
                 "--probe",
                 "cmsisdap:",
                 "--cbuild-run",
                 "${command:cmsis-csolution.getCbuildRunFile}"
-            ]
+            ],
+            "problemMatcher": []
         },
         {
             "label": "CMSIS Run",
@@ -71,15 +80,6 @@
                 "--log",
                 "*.cbuild_run,*server=info"
             ],
-            "problemMatcher": []
-        },
-        {
-            "label": "CMSIS Load+Run",
-            "dependsOn": [
-                "CMSIS Load",
-                "CMSIS Run"
-            ],
-            "dependsOrder": "sequence",
             "problemMatcher": []
         },
         {

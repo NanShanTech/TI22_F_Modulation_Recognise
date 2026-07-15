@@ -154,6 +154,23 @@ project:
         - file: ../App/dsp/dsp_adaptive.h
         - file: ../App/dsp/dsp_analyze.c
         - file: ../App/dsp/dsp_analyze.h
+    - group: fft
+      files:
+        - file: ../App/fft/spectrum_processing.h
+        - file: ../App/fft/spectrum_processing.c
+        - file: ../App/fft/estimaters.h
+        - file: ../App/fft/estimaters.c
+        - file: fft_helper.c
+        - file: fft_helper.h
+    - group: demodulation
+      files:
+        - file: ../App/demodulation/ddc.c
+        - file: ../App/demodulation/ddc.h
+        - file: ../App/demodulation/demodulation.c
+        - file: ../App/demodulation/lpf_fir.h
+        - file: ../App/demodulation/demodulation.h
+        - file: ../App/demodulation/demodulation_app.c
+        - file: ../App/demodulation/demodulation_app.h
   components:
     - component: ARM::CMSIS:CORE
     - component: CMSIS:DSP&Source

@@ -15,6 +15,7 @@
 
 #include "stm32h7xx_hal.h"
 #include "app_types.h"
+#include "arm_math_types.h"
 
 /* ---- ADC DMA 缓冲区（AXI SRAM，non-cacheable）---- */
 extern uint16_t g_adc_buffer[FFT_N];
@@ -27,5 +28,6 @@ void ADC_Task_Init (TIM_HandleTypeDef *htim, ADC_HandleTypeDef *hadc);
 void ADC_Task_Start(void);
 void ADC_Task_Stop (void);
 void ADC_Task_SetSpeed(Wave_Struct *wave);
-
+float32_t ADC_Task_RFFT(uint16_t *adc_buffer, float32_t *buffer,
+                        float32_t *pDst, uint32_t blockSize);
 #endif

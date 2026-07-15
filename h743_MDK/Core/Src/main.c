@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
+#include "adc_task.h"
 #include "dma.h"
 #include "tim.h"
 #include "usart.h"
@@ -27,6 +28,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "app.h"
+#include "demodulation_app.h"
+#include <stdint.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -53,7 +56,8 @@
 void SystemClock_Config(void);
 static void MPU_Config(void);
 /* USER CODE BEGIN PFP */
-
+DemodulationData demodulation_result;
+uint8_t demodulation_notcomplete_flag = 1;
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -129,8 +133,12 @@ int main(void)
       Scheduler_Run();
 
       /*ADC完成处理*/
-      if (g_adc_dma_done) {
+      if (g_adc_dma_done && ddc_notdone_flag) {
           App_process();
+      } else if (g_adc_dma_done && demodulation_notcomplete_flag) {
+        ADC_Task_Stop();
+        demodulation_result = do_demodulation();
+        demodulation_notcomplete_flag = 0;  
       }
     /* USER CODE END WHILE */
 

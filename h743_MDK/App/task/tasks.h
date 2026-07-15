@@ -12,14 +12,18 @@
 #include "app_types.h"
 #include "freq_measure.h"
 #include "serial.h"
-
+#include "arm_math_types.h"
 
 /* ---- 全局应用状态 ---- */
 extern Wave_Struct   g_wave_info;
 extern FreqMeasure   g_freq_measure;
 extern HMI_Comm      g_hmi;
 extern DacAwgState_t g_dac_awg;
-
+extern uint8_t ddc_notdone_flag;
+extern float32_t buffer[FFT_N];
+extern float32_t fft_buffer[FFT_N];
+extern float32_t intergration_buffer[50];
+extern float32_t freq_lo;
 /* ---- 应用初始化（main.c 在外设初始化后调用）---- */
 void Tasks_Init(UART_HandleTypeDef *huart_hmi);
 
