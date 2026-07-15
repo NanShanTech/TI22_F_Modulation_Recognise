@@ -14,7 +14,7 @@ N_PTS = 131072  # 采样点数
 CARRIER_FREQ = 10e6  # 载波频率 10 MHz
 CARRIER_AMP = 1.0  # 载波幅度 1 V
 MOD_FREQ = 3e3  # 调制频率 3 kHz
-MOD_AMP = 0.5  # 调制幅度 0.1 (即 AM 调制指数 / FM 频偏系数)
+MOD_AMP = 1.5  # 调制幅度 0.1 (即 AM 调制指数 / FM 频偏系数)
 
 
 def test_am_timedomain_envelope():
