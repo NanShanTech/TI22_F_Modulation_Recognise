@@ -46,6 +46,6 @@ h743_hal/main.o: ..\Core\Src\main.c ..\Core\Inc\main.h \
   ..\Core\Inc\usart.h ..\Core\Inc\gpio.h ..\App\app.h \
   ..\App\app_config.h ..\App\app_types.h ..\App\measure\freq_measure.h \
   ..\App\app_types.h ..\App\task\adc_task.h ..\App\comm\serial.h \
-  ..\App\dds\ad9959.h ..\App\task\scheduler.h ..\App\task\tasks.h \
-  ..\App\dsp\dsp_filter.h ..\App\dsp\dsp_adaptive.h \
+  ..\App\dds\ad9959.h ..\App\dds\ad9910.h ..\App\task\scheduler.h \
+  ..\App\task\tasks.h ..\App\dsp\dsp_filter.h ..\App\dsp\dsp_adaptive.h \
   ..\App\dsp\dsp_analyze.h ..\App\app_config.h

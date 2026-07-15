@@ -44,4 +44,4 @@ h743_hal/tasks.o: ..\App\task\tasks.c ..\App\task\tasks.h \
   ..\Drivers\CMSIS\Include\cmsis_compiler.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\float.h ..\Core\Inc\tim.h \
-  ..\Core\Inc\main.h
+  ..\Core\Inc\main.h ..\App\dds\ad9910.h ..\Core\Inc\main.h

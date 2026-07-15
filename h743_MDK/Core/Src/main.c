@@ -111,19 +111,15 @@ int main(void)
   Serial_RxInit(&huart3);
 
   ADC_Task_Init(&htim3, &hadc1);
-  ADC_Task_Start();
   // Tasks_Init(&huart3);
-    HMI_Init(&g_hmi, &huart3);
-    HMI_SendInitScreen(&g_hmi);
-    FreqMeasure_Init(&g_freq_measure, &htim2);
-    ADC_Task_Init(&htim3, &hadc1);
-    Scheduler_Init();
-// AD9959_Init();
-// AD9959_Set_All(CH0,100000,10000,0);
-// AD9959_Set_All(CH1,100000,10000,4096);
-// AD9959_Set_All(CH2,100000,10000,8192);
-// AD9959_Set_All(CH3,100000,10000,16384);
-// AD9959_Update();   /* 统一触发 IO_UPDATE，四通道同步启动 */
+
+  HMI_Init(&g_hmi, &huart3);
+  HMI_SendInitScreen(&g_hmi);
+//  FreqMeasure_Init(&g_freq_measure, &htim2);
+  Scheduler_Init();
+  Init_AD9910();
+  AD9910_FreWrite(9800000.0);      
+  ADC_Task_Start();                 
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -131,6 +127,11 @@ int main(void)
   while (1)
   {
       Scheduler_Run();
+
+      /*ADC完成处理*/
+      if (g_adc_dma_done) {
+          App_process();
+      }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

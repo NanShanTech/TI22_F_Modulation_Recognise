@@ -12,6 +12,7 @@
 #include "adc_task.h"
 #include "serial.h"
 #include "ad9959.h"
+#include "ad9910.h"
 #include "scheduler.h"
 #include "tasks.h"
 #include "dsp_filter.h"

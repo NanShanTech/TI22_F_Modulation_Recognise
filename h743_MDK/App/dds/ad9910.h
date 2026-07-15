@@ -9,7 +9,8 @@
  */
 typedef enum
 {
-    AD9910_WAVE_TRI = 0,   // 三角波
+	  AD9910_WAVE_SIN=0,
+    AD9910_WAVE_TRI,   // 三角波
     AD9910_WAVE_SQR,       // 方波
     AD9910_WAVE_SINC,      // Sinc 波
 } AD9910_WAVE_ENUM;

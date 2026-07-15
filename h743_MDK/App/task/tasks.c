@@ -17,6 +17,7 @@
 #include "fft_analyzer.h"
 #include "stm32h7xx_hal.h"
 #include "tim.h"
+#include "ad9910.h"
 
 /* ---- 全局应用状态 ---- */
 Wave_Struct g_wave_info;
@@ -29,40 +30,46 @@ void Tasks_Init(UART_HandleTypeDef *huart_hmi)
 {
 }
 
-/* ---- 应用主处理（一帧完整流程：停ADC→FFT→重开ADC）---- */
+/* ---- AD9910 扫频状态 ---- */
+static float g_sweep_freq_hz = 9800000.0f; 
+
+
+/* ---- 应用主处理（一帧完整流程：停ADC→FFT或者其他流程→扫频→重开ADC）---- */
 void App_process(void)
 {
-    if (!g_adc_dma_done) return;
     g_adc_dma_done = 0;
-
     ADC_Task_Stop();
-
     ADC_Task_FFT(&g_wave_info);
-   
-    ADC_Task_Start();
+
+    if (g_sweep_freq_hz > 29800000.0f) {
+			//TODO:
+			
+			
+			
+    } else {
+        AD9910_FreWrite((double)g_sweep_freq_hz);
+        g_sweep_freq_hz += 500000.0f;      
+        ADC_Task_Start();//重开 ADC 
+    }
 }
 
-/* 10ms 周期：ADC DMA 帧检测 + FFT 处理链 */
-
+/* 10ms 周期 */
 void Task_10ms(uint16_t ticks)
 {
     (void)ticks;
-    App_process();
 }
 
 /* 100ms 周期：*/
 void Task_100ms(void)
-{    
-    FreqMeasure_Process(&g_freq_measure, &g_wave_info);
-}  
+{
+//    FreqMeasure_Process(&g_freq_measure, &g_wave_info);
+}
 
 /* 1 秒周期：*/
 void Task_1sec(void)
 {
     HMI_ReportWave(&g_hmi, &g_wave_info);  /* 同时发给 HMI(USART3) 和 VOFA(USART1) */
 }
-
-
 
 /* 1 分钟周期：预留 — 长时间定时操作 */
 void Task_1min(void)

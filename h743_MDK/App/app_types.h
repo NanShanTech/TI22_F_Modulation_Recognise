@@ -82,11 +82,11 @@ typedef enum {
  * 四、AD9910 波形枚举
  *===========================================================================*/
 
-typedef enum {
-    AD9910_WAVE_TRI  = 0,
-    AD9910_WAVE_SQR  = 1,
-    AD9910_WAVE_SINC = 2,
-} AD9910_Wave_t;
+//typedef enum {
+//    AD9910_WAVE_TRI  = 0,
+//    AD9910_WAVE_SQR  = 1,
+//    AD9910_WAVE_SINC = 2,
+//} AD9910_Wave_t;
 
 typedef enum {
     DAC_AWG_MODE_STOPPED = 0,

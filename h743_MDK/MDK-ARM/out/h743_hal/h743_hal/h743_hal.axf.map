@@ -1709,7 +1709,7 @@ Section Cross References
     tasks.o(.ARM.exidx.text.Task_1min) refers to tasks.o(.text.Task_1min) for [Anonymous Symbol]
     fft_analyzer.o(.ARM.exidx.text.fft_prepare) refers to fft_analyzer.o(.text.fft_prepare) for [Anonymous Symbol]
     fft_analyzer.o(.ARM.exidx.text.fft_window) refers to fft_analyzer.o(.text.fft_window) for [Anonymous Symbol]
-    fft_analyzer.o(.text.fft_process) refers to arm_const_structs_extra.o(.rodata.arm_cfft_sR_f32_len2048_extra) for arm_cfft_sR_f32_len2048_extra
+    fft_analyzer.o(.text.fft_process) refers to arm_const_structs_extra.o(.rodata.arm_cfft_sR_f32_len4096_extra) for arm_cfft_sR_f32_len4096_extra
     fft_analyzer.o(.text.fft_process) refers to arm_cfft_f32_extra.o(.text.arm_cfft_f32_extra) for arm_cfft_f32_extra
     fft_analyzer.o(.text.fft_process) refers to atan2f.o(i.__hardfp_atan2f) for __hardfp_atan2f
     fft_analyzer.o(.text.fft_process) refers to sqrtf.o(i.__hardfp_sqrtf) for __hardfp_sqrtf
@@ -3430,7 +3430,7 @@ Removing Unused input sections from the image.
     Removing arm_common_tables_extra.o(.rodata.armBitRevIndexTableExtra256), (1760 bytes).
     Removing arm_common_tables_extra.o(.rodata.armBitRevIndexTableExtra512), (1792 bytes).
     Removing arm_common_tables_extra.o(.rodata.armBitRevIndexTableExtra1024), (7200 bytes).
-    Removing arm_common_tables_extra.o(.rodata.armBitRevIndexTableExtra4096), (16128 bytes).
+    Removing arm_common_tables_extra.o(.rodata.armBitRevIndexTableExtra2048), (15232 bytes).
     Removing arm_common_tables_extra.o(.rodata.armBitRevIndexTableExtra8192), (58304 bytes).
     Removing arm_common_tables_extra.o(.rodata.armBitRevIndexTableExtra16384), (124320 bytes).
     Removing arm_common_tables_extra.o(.rodata.twiddleCoefExtra_16), (128 bytes).
@@ -3440,7 +3440,7 @@ Removing Unused input sections from the image.
     Removing arm_common_tables_extra.o(.rodata.twiddleCoefExtra_256), (2048 bytes).
     Removing arm_common_tables_extra.o(.rodata.twiddleCoefExtra_512), (4096 bytes).
     Removing arm_common_tables_extra.o(.rodata.twiddleCoefExtra_1024), (8192 bytes).
-    Removing arm_common_tables_extra.o(.rodata.twiddleCoefExtra_4096), (32768 bytes).
+    Removing arm_common_tables_extra.o(.rodata.twiddleCoefExtra_2048), (16384 bytes).
     Removing arm_common_tables_extra.o(.rodata.twiddleCoefExtra_8192), (65536 bytes).
     Removing arm_common_tables_extra.o(.rodata.twiddleCoefExtra_16384), (131072 bytes).
     Removing arm_common_tables_extra.o(.rodata.twiddleCoefExtra_rfft_32), (128 bytes).
@@ -3461,7 +3461,7 @@ Removing Unused input sections from the image.
     Removing arm_const_structs_extra.o(.rodata.arm_cfft_sR_f32_len256_extra), (16 bytes).
     Removing arm_const_structs_extra.o(.rodata.arm_cfft_sR_f32_len512_extra), (16 bytes).
     Removing arm_const_structs_extra.o(.rodata.arm_cfft_sR_f32_len1024_extra), (16 bytes).
-    Removing arm_const_structs_extra.o(.rodata.arm_cfft_sR_f32_len4096_extra), (16 bytes).
+    Removing arm_const_structs_extra.o(.rodata.arm_cfft_sR_f32_len2048_extra), (16 bytes).
     Removing arm_const_structs_extra.o(.rodata.arm_cfft_sR_f32_len8192_extra), (16 bytes).
     Removing arm_const_structs_extra.o(.rodata.arm_cfft_sR_f32_len16384_extra), (16 bytes).
     Removing arm_rfft_fast_f32_extra.o(.text), (0 bytes).
@@ -3814,7 +3814,7 @@ Removing Unused input sections from the image.
     Removing ffltui.o(.text), (10 bytes).
     Removing cfcmple.o(.text), (20 bytes).
 
-1662 unused section(s) (total 925382 bytes) removed from the image.
+1662 unused section(s) (total 908102 bytes) removed from the image.
 
 ==============================================================================
 
@@ -4197,39 +4197,39 @@ Image Symbol Table
     i._snputc                                0x0800afd6   Section        0  printfa.o(i._snputc)
     .Lswitch.table.UART_SetConfig.5          0x0800afec   Data           6  stm32h7xx_hal_uart.o(.rodata..Lswitch.table.UART_SetConfig.5)
     .Lswitch.table.UART_SetConfig.7          0x0800aff2   Data           6  stm32h7xx_hal_uart.o(.rodata..Lswitch.table.UART_SetConfig.7)
-    UARTEx_SetNbDataToProcess.numerator      0x0800ebb0   Data           8  stm32h7xx_hal_uart_ex.o(.rodata.cst8)
-    [Anonymous Symbol]                       0x0800ebb0   Section        0  stm32h7xx_hal_uart_ex.o(.rodata.cst8)
-    UARTEx_SetNbDataToProcess.denominator    0x0800ebb8   Data           8  stm32h7xx_hal_uart_ex.o(.rodata.cst8)
-    .L.str                                   0x0800ebc0   Data           8  serial.o(.rodata.str1.1)
-    [Anonymous Symbol]                       0x0800ebc0   Section        0  serial.o(.rodata.str1.1)
-    .L.str.6                                 0x0800ebd1   Data           8  serial.o(.rodata.str1.1)
-    .L.str.5                                 0x0800ebd9   Data           7  serial.o(.rodata.str1.1)
-    .L.str.7                                 0x0800ebe0   Data           7  serial.o(.rodata.str1.1)
-    .L.str.8                                 0x0800ebe7   Data           7  serial.o(.rodata.str1.1)
-    .L.str.9                                 0x0800ebee   Data           7  serial.o(.rodata.str1.1)
-    .L.str.16                                0x0800ebf5   Data           8  serial.o(.rodata.str1.1)
-    .L.str.17                                0x0800ebfd   Data           9  serial.o(.rodata.str1.1)
-    .L.str.18                                0x0800ec06   Data           9  serial.o(.rodata.str1.1)
-    _errno                                   0x24001000   Data           4  errno.o(.data)
-    .data                                    0x24001000   Section        4  errno.o(.data)
-    fft_get_axis.inited                      0x24001018   Data           1  fft_analyzer.o(.bss.fft_get_axis.inited)
-    [Anonymous Symbol]                       0x24001018   Section        0  fft_analyzer.o(.bss.fft_get_axis.inited)
-    g_fft_in                                 0x2400101c   Data       16384  adc_task.o(.bss.g_fft_in)
-    [Anonymous Symbol]                       0x2400101c   Section        0  adc_task.o(.bss.g_fft_in)
-    g_fft_out                                0x2400501c   Data       20480  adc_task.o(.bss.g_fft_out)
-    [Anonymous Symbol]                       0x2400501c   Section        0  adc_task.o(.bss.g_fft_out)
-    g_hadc                                   0x2400a03c   Data           4  adc_task.o(.bss.g_hadc)
-    [Anonymous Symbol]                       0x2400a03c   Section        0  adc_task.o(.bss.g_hadc)
-    g_htim                                   0x2400a044   Data           4  adc_task.o(.bss.g_htim)
-    [Anonymous Symbol]                       0x2400a044   Section        0  adc_task.o(.bss.g_htim)
-    g_peaks                                  0x2400a048   Data           6  adc_task.o(.bss.g_peaks)
-    [Anonymous Symbol]                       0x2400a048   Section        0  adc_task.o(.bss.g_peaks)
-    rx_buf                                   0x2400a35c   Data         500  serial.o(.bss.rx_buf)
-    [Anonymous Symbol]                       0x2400a35c   Section        0  serial.o(.bss.rx_buf)
-    s_last_tick                              0x2400a550   Data           2  scheduler.o(.bss.s_last_tick)
-    [Anonymous Symbol]                       0x2400a550   Section        0  scheduler.o(.bss.s_last_tick)
-    STACK                                    0x2400a558   Section     1024  startup_stm32h743xx.o(STACK)
-    fft_get_axis.axis                        0x30000000   Data        4096  fft_analyzer.o(.SRAM1)
+    UARTEx_SetNbDataToProcess.numerator      0x0800ef30   Data           8  stm32h7xx_hal_uart_ex.o(.rodata.cst8)
+    [Anonymous Symbol]                       0x0800ef30   Section        0  stm32h7xx_hal_uart_ex.o(.rodata.cst8)
+    UARTEx_SetNbDataToProcess.denominator    0x0800ef38   Data           8  stm32h7xx_hal_uart_ex.o(.rodata.cst8)
+    .L.str                                   0x0800ef40   Data           8  serial.o(.rodata.str1.1)
+    [Anonymous Symbol]                       0x0800ef40   Section        0  serial.o(.rodata.str1.1)
+    .L.str.6                                 0x0800ef51   Data           8  serial.o(.rodata.str1.1)
+    .L.str.5                                 0x0800ef59   Data           7  serial.o(.rodata.str1.1)
+    .L.str.7                                 0x0800ef60   Data           7  serial.o(.rodata.str1.1)
+    .L.str.8                                 0x0800ef67   Data           7  serial.o(.rodata.str1.1)
+    .L.str.9                                 0x0800ef6e   Data           7  serial.o(.rodata.str1.1)
+    .L.str.16                                0x0800ef75   Data           8  serial.o(.rodata.str1.1)
+    .L.str.17                                0x0800ef7d   Data           9  serial.o(.rodata.str1.1)
+    .L.str.18                                0x0800ef86   Data           9  serial.o(.rodata.str1.1)
+    _errno                                   0x24002000   Data           4  errno.o(.data)
+    .data                                    0x24002000   Section        4  errno.o(.data)
+    fft_get_axis.inited                      0x24002018   Data           1  fft_analyzer.o(.bss.fft_get_axis.inited)
+    [Anonymous Symbol]                       0x24002018   Section        0  fft_analyzer.o(.bss.fft_get_axis.inited)
+    g_fft_in                                 0x2400201c   Data       32768  adc_task.o(.bss.g_fft_in)
+    [Anonymous Symbol]                       0x2400201c   Section        0  adc_task.o(.bss.g_fft_in)
+    g_fft_out                                0x2400a01c   Data       40960  adc_task.o(.bss.g_fft_out)
+    [Anonymous Symbol]                       0x2400a01c   Section        0  adc_task.o(.bss.g_fft_out)
+    g_hadc                                   0x2401403c   Data           4  adc_task.o(.bss.g_hadc)
+    [Anonymous Symbol]                       0x2401403c   Section        0  adc_task.o(.bss.g_hadc)
+    g_htim                                   0x24014044   Data           4  adc_task.o(.bss.g_htim)
+    [Anonymous Symbol]                       0x24014044   Section        0  adc_task.o(.bss.g_htim)
+    g_peaks                                  0x24014048   Data           6  adc_task.o(.bss.g_peaks)
+    [Anonymous Symbol]                       0x24014048   Section        0  adc_task.o(.bss.g_peaks)
+    rx_buf                                   0x2401435c   Data         500  serial.o(.bss.rx_buf)
+    [Anonymous Symbol]                       0x2401435c   Section        0  serial.o(.bss.rx_buf)
+    s_last_tick                              0x24014550   Data           2  scheduler.o(.bss.s_last_tick)
+    [Anonymous Symbol]                       0x24014550   Section        0  scheduler.o(.bss.s_last_tick)
+    STACK                                    0x24014558   Section     1024  startup_stm32h743xx.o(STACK)
+    fft_get_axis.axis                        0x30000000   Data        8192  fft_analyzer.o(.SRAM1)
     [Anonymous Symbol]                       0x30000000   Section        0  fft_analyzer.o(.SRAM1)
 
     Global Symbols
@@ -4628,30 +4628,30 @@ Image Symbol Table
     __set_errno                              0x0800a719   Thumb Code     6  errno.o(i.__set_errno)
     D1CorePrescTable                         0x0800aff8   Data          16  system_stm32h7xx.o(.rodata.D1CorePrescTable)
     UARTPrescTable                           0x0800b008   Data          24  stm32h7xx_hal_uart.o(.rodata.UARTPrescTable)
-    armBitRevIndexTableExtra2048             0x0800b020   Data       15232  arm_common_tables_extra.o(.rodata.armBitRevIndexTableExtra2048)
-    arm_cfft_sR_f32_len2048_extra            0x0800eba0   Data          16  arm_const_structs_extra.o(.rodata.arm_cfft_sR_f32_len2048_extra)
-    twiddleCoefExtra_2048                    0x0800ec10   Data       16384  arm_common_tables_extra.o(.rodata.twiddleCoefExtra_2048)
-    Region$$Table$$Base                      0x08012c10   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x08012c40   Number         0  anon$$obj.o(Region$$Table)
-    g_adc_buffer                             0x24000000   Data        4096  adc_task.o(.AXI_SRAM)
-    SystemCoreClock                          0x24001004   Data           4  system_stm32h7xx.o(.data.SystemCoreClock)
-    SystemD2Clock                            0x24001008   Data           4  system_stm32h7xx.o(.data.SystemD2Clock)
-    uwTickFreq                               0x2400100c   Data           1  stm32h7xx_hal.o(.data.uwTickFreq)
-    uwTickPrio                               0x24001010   Data           4  stm32h7xx_hal.o(.data.uwTickPrio)
-    g_adc_dma_done                           0x24001019   Data           1  adc_task.o(.bss.g_adc_dma_done)
-    g_freq_measure                           0x2400a01c   Data          32  tasks.o(.bss.g_freq_measure)
-    g_hmi                                    0x2400a040   Data           4  tasks.o(.bss.g_hmi)
-    g_sched                                  0x2400a050   Data          10  scheduler.o(.bss.g_sched)
-    g_wave_info                              0x2400a05c   Data          24  tasks.o(.bss.g_wave_info)
-    hadc1                                    0x2400a074   Data         100  adc.o(.bss.hadc1)
-    hdma_adc1                                0x2400a0d8   Data         120  adc.o(.bss.hdma_adc1)
-    htim1                                    0x2400a150   Data          76  tim.o(.bss.htim1)
-    htim2                                    0x2400a19c   Data          76  tim.o(.bss.htim2)
-    htim3                                    0x2400a1e8   Data          76  tim.o(.bss.htim3)
-    huart1                                   0x2400a234   Data         148  usart.o(.bss.huart1)
-    huart3                                   0x2400a2c8   Data         148  usart.o(.bss.huart3)
-    uwTick                                   0x2400a554   Data           4  stm32h7xx_hal.o(.bss.uwTick)
-    __initial_sp                             0x2400a958   Data           0  startup_stm32h743xx.o(STACK)
+    armBitRevIndexTableExtra4096             0x0800b020   Data       16128  arm_common_tables_extra.o(.rodata.armBitRevIndexTableExtra4096)
+    arm_cfft_sR_f32_len4096_extra            0x0800ef20   Data          16  arm_const_structs_extra.o(.rodata.arm_cfft_sR_f32_len4096_extra)
+    twiddleCoefExtra_4096                    0x0800ef90   Data       32768  arm_common_tables_extra.o(.rodata.twiddleCoefExtra_4096)
+    Region$$Table$$Base                      0x08016f90   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x08016fc0   Number         0  anon$$obj.o(Region$$Table)
+    g_adc_buffer                             0x24000000   Data        8192  adc_task.o(.AXI_SRAM)
+    SystemCoreClock                          0x24002004   Data           4  system_stm32h7xx.o(.data.SystemCoreClock)
+    SystemD2Clock                            0x24002008   Data           4  system_stm32h7xx.o(.data.SystemD2Clock)
+    uwTickFreq                               0x2400200c   Data           1  stm32h7xx_hal.o(.data.uwTickFreq)
+    uwTickPrio                               0x24002010   Data           4  stm32h7xx_hal.o(.data.uwTickPrio)
+    g_adc_dma_done                           0x24002019   Data           1  adc_task.o(.bss.g_adc_dma_done)
+    g_freq_measure                           0x2401401c   Data          32  tasks.o(.bss.g_freq_measure)
+    g_hmi                                    0x24014040   Data           4  tasks.o(.bss.g_hmi)
+    g_sched                                  0x24014050   Data          10  scheduler.o(.bss.g_sched)
+    g_wave_info                              0x2401405c   Data          24  tasks.o(.bss.g_wave_info)
+    hadc1                                    0x24014074   Data         100  adc.o(.bss.hadc1)
+    hdma_adc1                                0x240140d8   Data         120  adc.o(.bss.hdma_adc1)
+    htim1                                    0x24014150   Data          76  tim.o(.bss.htim1)
+    htim2                                    0x2401419c   Data          76  tim.o(.bss.htim2)
+    htim3                                    0x240141e8   Data          76  tim.o(.bss.htim3)
+    huart1                                   0x24014234   Data         148  usart.o(.bss.huart1)
+    huart3                                   0x240142c8   Data         148  usart.o(.bss.huart3)
+    uwTick                                   0x24014554   Data           4  stm32h7xx_hal.o(.bss.uwTick)
+    __initial_sp                             0x24014958   Data           0  startup_stm32h743xx.o(STACK)
 
 
 
@@ -4661,9 +4661,9 @@ Memory Map of the image
 
   Image Entry point : 0x08000299
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00014c58, Max: 0x00100000, ABSOLUTE, COMPRESSED[0x00012c94])
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x0001afd8, Max: 0x00100000, ABSOLUTE, COMPRESSED[0x00017054])
 
-    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00012c40, Max: 0x00100000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00016fc0, Max: 0x00100000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -4986,73 +4986,73 @@ Memory Map of the image
     0x0800aff2   0x0800aff2   0x00000006   Data   RO         1555    .rodata..Lswitch.table.UART_SetConfig.7  stm32h7xx_hal_uart.o
     0x0800aff8   0x0800aff8   0x00000010   Data   RO         1613    .rodata.D1CorePrescTable  system_stm32h7xx.o
     0x0800b008   0x0800b008   0x00000018   Data   RO         1553    .rodata.UARTPrescTable  stm32h7xx_hal_uart.o
-    0x0800b020   0x0800b020   0x00003b80   Data   RO         1662    .rodata.armBitRevIndexTableExtra2048  arm_common_tables_extra.o
-    0x0800eba0   0x0800eba0   0x00000010   Data   RO         1699    .rodata.arm_cfft_sR_f32_len2048_extra  arm_const_structs_extra.o
-    0x0800ebb0   0x0800ebb0   0x00000010   Data   RO         1596    .rodata.cst8        stm32h7xx_hal_uart_ex.o
-    0x0800ebc0   0x0800ebc0   0x0000004f   Data   RO         1862    .rodata.str1.1      serial.o
-    0x0800ec0f   0x0800ec0f   0x00000001   PAD
-    0x0800ec10   0x0800ec10   0x00004000   Data   RO         1673    .rodata.twiddleCoefExtra_2048  arm_common_tables_extra.o
-    0x08012c10   0x08012c10   0x00000030   Data   RO         3007    Region$$Table       anon$$obj.o
+    0x0800b020   0x0800b020   0x00003f00   Data   RO         1663    .rodata.armBitRevIndexTableExtra4096  arm_common_tables_extra.o
+    0x0800ef20   0x0800ef20   0x00000010   Data   RO         1700    .rodata.arm_cfft_sR_f32_len4096_extra  arm_const_structs_extra.o
+    0x0800ef30   0x0800ef30   0x00000010   Data   RO         1596    .rodata.cst8        stm32h7xx_hal_uart_ex.o
+    0x0800ef40   0x0800ef40   0x0000004f   Data   RO         1862    .rodata.str1.1      serial.o
+    0x0800ef8f   0x0800ef8f   0x00000001   PAD
+    0x0800ef90   0x0800ef90   0x00008000   Data   RO         1674    .rodata.twiddleCoefExtra_4096  arm_common_tables_extra.o
+    0x08016f90   0x08016f90   0x00000030   Data   RO         3007    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08012c40, Size: 0x00000000, Max: 0x00020000, ABSOLUTE)
-
-    **** No section assigned to this execution region ****
-
-
-    Execution Region RW_IRAM2 (Exec base: 0x24000000, Load base: 0x08012c40, Size: 0x0000a958, Max: 0x00080000, ABSOLUTE, COMPRESSED[0x00000030])
-
-    Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
-
-    0x24000000   COMPRESSED   0x00001000   Data   RW         1898    .AXI_SRAM           adc_task.o
-    0x24001000   COMPRESSED   0x00000004   Data   RW         2981    .data               mc_w.l(errno.o)
-    0x24001004   COMPRESSED   0x00000004   Data   RW         1611    .data.SystemCoreClock  system_stm32h7xx.o
-    0x24001008   COMPRESSED   0x00000004   Data   RW         1612    .data.SystemD2Clock  system_stm32h7xx.o
-    0x2400100c   COMPRESSED   0x00000001   Data   RW          880    .data.uwTickFreq    stm32h7xx_hal.o
-    0x2400100d   COMPRESSED   0x00000003   PAD
-    0x24001010   COMPRESSED   0x00000004   Data   RW          879    .data.uwTickPrio    stm32h7xx_hal.o
-    0x24001014   COMPRESSED   0x00000004   PAD
-    0x24001018        -       0x00000001   Zero   RW         1980    .bss.fft_get_axis.inited  fft_analyzer.o
-    0x24001019        -       0x00000001   Zero   RW         1897    .bss.g_adc_dma_done  adc_task.o
-    0x2400101a   COMPRESSED   0x00000002   PAD
-    0x2400101c        -       0x00004000   Zero   RW         1899    .bss.g_fft_in       adc_task.o
-    0x2400501c        -       0x00005000   Zero   RW         1900    .bss.g_fft_out      adc_task.o
-    0x2400a01c        -       0x00000020   Zero   RW         1947    .bss.g_freq_measure  tasks.o
-    0x2400a03c        -       0x00000004   Zero   RW         1896    .bss.g_hadc         adc_task.o
-    0x2400a040        -       0x00000004   Zero   RW         1948    .bss.g_hmi          tasks.o
-    0x2400a044        -       0x00000004   Zero   RW         1895    .bss.g_htim         adc_task.o
-    0x2400a048        -       0x00000006   Zero   RW         1901    .bss.g_peaks        adc_task.o
-    0x2400a04e   COMPRESSED   0x00000002   PAD
-    0x2400a050        -       0x0000000a   Zero   RW         1924    .bss.g_sched        scheduler.o
-    0x2400a05a   COMPRESSED   0x00000002   PAD
-    0x2400a05c        -       0x00000018   Zero   RW         1946    .bss.g_wave_info    tasks.o
-    0x2400a074        -       0x00000064   Zero   RW           45    .bss.hadc1          adc.o
-    0x2400a0d8        -       0x00000078   Zero   RW           46    .bss.hdma_adc1      adc.o
-    0x2400a150        -       0x0000004c   Zero   RW           74    .bss.htim1          tim.o
-    0x2400a19c        -       0x0000004c   Zero   RW           75    .bss.htim2          tim.o
-    0x2400a1e8        -       0x0000004c   Zero   RW           76    .bss.htim3          tim.o
-    0x2400a234        -       0x00000094   Zero   RW           93    .bss.huart1         usart.o
-    0x2400a2c8        -       0x00000094   Zero   RW           94    .bss.huart3         usart.o
-    0x2400a35c        -       0x000001f4   Zero   RW         1861    .bss.rx_buf         serial.o
-    0x2400a550        -       0x00000002   Zero   RW         1925    .bss.s_last_tick    scheduler.o
-    0x2400a552   COMPRESSED   0x00000002   PAD
-    0x2400a554        -       0x00000004   Zero   RW          881    .bss.uwTick         stm32h7xx_hal.o
-    0x2400a558        -       0x00000400   Zero   RW            1    STACK               startup_stm32h743xx.o
-
-
-    Execution Region RW_IRAM3 (Exec base: 0x30000000, Load base: 0x08012c70, Size: 0x00001000, Max: 0x00004000, ABSOLUTE, COMPRESSED[0x00000024])
-
-    Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
-
-    0x30000000   COMPRESSED   0x00001000   Data   RW         1979    .SRAM1              fft_analyzer.o
-
-
-    Execution Region RW_IRAM4 (Exec base: 0x30004000, Load base: 0x08012c94, Size: 0x00000000, Max: 0x00004000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08016fc0, Size: 0x00000000, Max: 0x00020000, ABSOLUTE)
 
     **** No section assigned to this execution region ****
 
 
-    Execution Region RW_IRAM5 (Exec base: 0x38000000, Load base: 0x08012c94, Size: 0x00000000, Max: 0x00004000, ABSOLUTE)
+    Execution Region RW_IRAM2 (Exec base: 0x24000000, Load base: 0x08016fc0, Size: 0x00014958, Max: 0x00080000, ABSOLUTE, COMPRESSED[0x00000050])
+
+    Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
+
+    0x24000000   COMPRESSED   0x00002000   Data   RW         1898    .AXI_SRAM           adc_task.o
+    0x24002000   COMPRESSED   0x00000004   Data   RW         2981    .data               mc_w.l(errno.o)
+    0x24002004   COMPRESSED   0x00000004   Data   RW         1611    .data.SystemCoreClock  system_stm32h7xx.o
+    0x24002008   COMPRESSED   0x00000004   Data   RW         1612    .data.SystemD2Clock  system_stm32h7xx.o
+    0x2400200c   COMPRESSED   0x00000001   Data   RW          880    .data.uwTickFreq    stm32h7xx_hal.o
+    0x2400200d   COMPRESSED   0x00000003   PAD
+    0x24002010   COMPRESSED   0x00000004   Data   RW          879    .data.uwTickPrio    stm32h7xx_hal.o
+    0x24002014   COMPRESSED   0x00000004   PAD
+    0x24002018        -       0x00000001   Zero   RW         1980    .bss.fft_get_axis.inited  fft_analyzer.o
+    0x24002019        -       0x00000001   Zero   RW         1897    .bss.g_adc_dma_done  adc_task.o
+    0x2400201a   COMPRESSED   0x00000002   PAD
+    0x2400201c        -       0x00008000   Zero   RW         1899    .bss.g_fft_in       adc_task.o
+    0x2400a01c        -       0x0000a000   Zero   RW         1900    .bss.g_fft_out      adc_task.o
+    0x2401401c        -       0x00000020   Zero   RW         1947    .bss.g_freq_measure  tasks.o
+    0x2401403c        -       0x00000004   Zero   RW         1896    .bss.g_hadc         adc_task.o
+    0x24014040        -       0x00000004   Zero   RW         1948    .bss.g_hmi          tasks.o
+    0x24014044        -       0x00000004   Zero   RW         1895    .bss.g_htim         adc_task.o
+    0x24014048        -       0x00000006   Zero   RW         1901    .bss.g_peaks        adc_task.o
+    0x2401404e   COMPRESSED   0x00000002   PAD
+    0x24014050        -       0x0000000a   Zero   RW         1924    .bss.g_sched        scheduler.o
+    0x2401405a   COMPRESSED   0x00000002   PAD
+    0x2401405c        -       0x00000018   Zero   RW         1946    .bss.g_wave_info    tasks.o
+    0x24014074        -       0x00000064   Zero   RW           45    .bss.hadc1          adc.o
+    0x240140d8        -       0x00000078   Zero   RW           46    .bss.hdma_adc1      adc.o
+    0x24014150        -       0x0000004c   Zero   RW           74    .bss.htim1          tim.o
+    0x2401419c        -       0x0000004c   Zero   RW           75    .bss.htim2          tim.o
+    0x240141e8        -       0x0000004c   Zero   RW           76    .bss.htim3          tim.o
+    0x24014234        -       0x00000094   Zero   RW           93    .bss.huart1         usart.o
+    0x240142c8        -       0x00000094   Zero   RW           94    .bss.huart3         usart.o
+    0x2401435c        -       0x000001f4   Zero   RW         1861    .bss.rx_buf         serial.o
+    0x24014550        -       0x00000002   Zero   RW         1925    .bss.s_last_tick    scheduler.o
+    0x24014552   COMPRESSED   0x00000002   PAD
+    0x24014554        -       0x00000004   Zero   RW          881    .bss.uwTick         stm32h7xx_hal.o
+    0x24014558        -       0x00000400   Zero   RW            1    STACK               startup_stm32h743xx.o
+
+
+    Execution Region RW_IRAM3 (Exec base: 0x30000000, Load base: 0x08017010, Size: 0x00002000, Max: 0x00004000, ABSOLUTE, COMPRESSED[0x00000044])
+
+    Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
+
+    0x30000000   COMPRESSED   0x00002000   Data   RW         1979    .SRAM1              fft_analyzer.o
+
+
+    Execution Region RW_IRAM4 (Exec base: 0x30004000, Load base: 0x08017054, Size: 0x00000000, Max: 0x00004000, ABSOLUTE)
+
+    **** No section assigned to this execution region ****
+
+
+    Execution Region RW_IRAM5 (Exec base: 0x38000000, Load base: 0x08017054, Size: 0x00000000, Max: 0x00004000, ABSOLUTE)
 
     **** No section assigned to this execution region ****
 
@@ -5065,13 +5065,13 @@ Image component sizes
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
        404          0          0          0        220       9215   adc.o
-       192          0          0       4096      36879       8148   adc_task.o
+       192          0          0       8192      73743       8148   adc_task.o
         80          0          0          0          0       1021   arm_bitreversal2_extra.o
       1822          0          0          0          0       9165   arm_cfft_f32_extra.o
-         0          0      31616          0          0       2486   arm_common_tables_extra.o
+         0          0      48896          0          0       2486   arm_common_tables_extra.o
          0          0         16          0          0       1394   arm_const_structs_extra.o
         52          0          0          0          0       5630   dma.o
-       808         44          0       4096          1       9272   fft_analyzer.o
+       808         44          0       8192          1       9279   fft_analyzer.o
        528         12          0          0          0      11866   freq_measure.o
        346          0          0          0          0       3281   gpio.o
        556          0          0          0          0      11537   main.o
@@ -5099,7 +5099,7 @@ Image component sizes
        518          0          0          0        296      11931   usart.o
 
     ----------------------------------------------------------------------
-     37184        754      32492       8208      39236     417205   Object Totals
+     37184        754      49772      16400      76100     417212   Object Totals
          0          0         48          0          0          0   (incl. Generated)
        492         24          1          3         12          0   (incl. Padding)
 
@@ -5166,15 +5166,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     44372        970      32492       8212      39236     438752   Grand Totals
-     44372        970      32492         84      39236     438752   ELF Image Totals (compressed)
-     44372        970      32492         84          0          0   ROM Totals
+     44372        970      49772      16404      76100     438759   Grand Totals
+     44372        970      49772        148      76100     438759   ELF Image Totals (compressed)
+     44372        970      49772        148          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                76864 (  75.06kB)
-    Total RW  Size (RW Data + ZI Data)             47448 (  46.34kB)
-    Total ROM Size (Code + RO Data + RW Data)      76948 (  75.14kB)
+    Total RO  Size (Code + RO Data)                94144 (  91.94kB)
+    Total RW  Size (RW Data + ZI Data)             92504 (  90.34kB)
+    Total ROM Size (Code + RO Data + RW Data)      94292 (  92.08kB)
 
 ==============================================================================
 
