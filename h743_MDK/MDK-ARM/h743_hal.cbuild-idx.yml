@@ -15,5 +15,4 @@ build-idx:
           - h743_hal+h743_hal.cbuild-run.yml - file is already up-to-date
           - h743_hal+h743_hal.cbuild.yml - file is already up-to-date
       packs-unused:
-        - pack: ARM::CMSIS-DSP@1.16.2
         - pack: ARM::CMSIS-NN@4.1.0

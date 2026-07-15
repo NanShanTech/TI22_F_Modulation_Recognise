@@ -39,7 +39,7 @@ void App_process(void)
 {
     g_adc_dma_done = 0;
     ADC_Task_Stop();
-    ADC_Task_FFT(&g_wave_info);
+    //ADC_Task_FFT(&g_wave_info);
 
     if (g_sweep_freq_hz > 29800000.0f) {
 			//TODO:

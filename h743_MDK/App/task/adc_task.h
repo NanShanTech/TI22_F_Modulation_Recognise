@@ -27,6 +27,5 @@ void ADC_Task_Init (TIM_HandleTypeDef *htim, ADC_HandleTypeDef *hadc);
 void ADC_Task_Start(void);
 void ADC_Task_Stop (void);
 void ADC_Task_SetSpeed(Wave_Struct *wave);
-void ADC_Task_FFT  (Wave_Struct *wave);
 
 #endif

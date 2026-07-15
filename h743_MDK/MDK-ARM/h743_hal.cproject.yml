@@ -15,7 +15,6 @@ project:
         - ../Drivers/CMSIS/Device/ST/STM32H7xx/Include
         - ../Drivers/CMSIS/Include
         - ../Hardware
-        - ../Drivers/CMSIS/DSP/Include
         - ../App
         - ../App/comm
         - ../App/dac
@@ -127,19 +126,6 @@ project:
       files:
         - file: ../App/app_config.h
         - file: ../App/app_types.h
-    - group: long_fft
-      files:
-        - file: ../long_fft/arm_bitreversal2_extra.c
-        - file: ../long_fft/arm_cfft_f32_extra.c
-        - file: ../long_fft/arm_cfft_init_f32_extra.c
-        - file: ../long_fft/arm_common_tables_extra.c
-        - file: ../long_fft/arm_common_tables_extra.h
-        - file: ../long_fft/arm_const_structs_extra.c
-        - file: ../long_fft/arm_const_structs_extra.h
-        - file: ../long_fft/arm_cortexM7l_math.lib
-        - file: ../long_fft/arm_rfft_fast_f32_extra.c
-        - file: ../long_fft/arm_rfft_fast_init_f32_extra.c
-        - file: ../long_fft/extra_ffts.h
     - group: MyDrive
       files:
         - file: ../App/dds/ad9910.c
@@ -160,10 +146,6 @@ project:
         - file: ../App/task/scheduler.h
         - file: ../App/task/tasks.c
         - file: ../App/task/tasks.h
-    - group: fft
-      files:
-        - file: ../App/fft/fft_analyzer.c
-        - file: ../App/fft/fft_analyzer.h
     - group: DSP
       files:
         - file: ../App/dsp/dsp_filter.c
@@ -174,3 +156,4 @@ project:
         - file: ../App/dsp/dsp_analyze.h
   components:
     - component: ARM::CMSIS:CORE
+    - component: CMSIS:DSP&Source

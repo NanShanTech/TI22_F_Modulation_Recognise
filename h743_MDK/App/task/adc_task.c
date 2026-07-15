@@ -68,14 +68,3 @@ void ADC_Task_SetSpeed(Wave_Struct *wave) {
     HAL_TIM_Base_Init(g_htim);
     HAL_Delay(1);
 }
-
-void ADC_Task_FFT(Wave_Struct *wave) {
-    fft_prepare(g_adc_buffer, &g_fft_in);
-    // wave->mod_vpp = find_vpp(&g_fft_in);
-
-    fft_process(&g_fft_in, &g_fft_out);
-    fft_normalize(&g_fft_out, 1.0f);
-    fft_find_peaks(&g_fft_out, &g_peaks);
-
-    memset(g_adc_buffer, 0, FFT_N * sizeof(uint16_t));
-}

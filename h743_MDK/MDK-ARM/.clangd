@@ -1,5 +1,5 @@
 CompileFlags:
-  CompilationDatabase: d:\My_Git\2022F\h743_MDK\MDK-ARM\out\h743_hal\h743_hal
+  CompilationDatabase: /home/h3_saki/Documents/Electronic_Engineering/105_Training/TI22_F_Modulation_Recognise/h743_MDK/MDK-ARM/out/h743_hal/h743_hal
   Add:
     - -include
-    - d:\My_Git\2022F\h743_MDK\MDK-ARM\out\h743_hal\h743_hal\compile_macros.h
+    - /home/h3_saki/Documents/Electronic_Engineering/105_Training/TI22_F_Modulation_Recognise/h743_MDK/MDK-ARM/out/h743_hal/h743_hal/compile_macros.h
