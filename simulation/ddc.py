@@ -4,8 +4,8 @@ from scipy import signal
 from typing import cast
 
 FS_ANA = 262.144e6
-N_ANA = 524288
-FS = 2.048e6
+N_ANA = 1048576
+FS = 1.024e6
 N = 4096
 DDS_AMP = 0.75  # 0.75倍归一化幅值
 
