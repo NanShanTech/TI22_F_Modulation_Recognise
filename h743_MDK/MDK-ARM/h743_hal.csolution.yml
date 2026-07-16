@@ -11,8 +11,8 @@ solution:
           images:
             - project-context: h743_hal
           debugger:
-            name: CMSIS-DAP@Arm-Debugger
-            clock-armdbg: auto
-            protocol-armdbg: auto
+            name: CMSIS-DAP@pyOCD
+            clock: 10000000
+            protocol: swd
   projects:
     - project: h743_hal.cproject.yml

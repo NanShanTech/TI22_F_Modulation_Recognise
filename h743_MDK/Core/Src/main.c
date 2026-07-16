@@ -19,7 +19,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "adc.h"
-#include "adc_task.h"
 #include "dma.h"
 #include "tim.h"
 #include "usart.h"
@@ -106,30 +105,29 @@ int main(void)
   MX_DMA_Init();
   MX_ADC1_Init();
   MX_TIM3_Init();
-  MX_TIM2_Init();
   MX_USART3_UART_Init();
   MX_USART1_UART_Init();
-  MX_TIM1_Init();
   /* USER CODE BEGIN 2 */
-  Serial_RxInit(&huart3);
+/*   Serial_RxInit(&huart3) */;
 
-  ADC_Task_Init(&htim3, &hadc1);
+ 
   // Tasks_Init(&huart3);
 
-  HMI_Init(&g_hmi, &huart3);
-  HMI_SendInitScreen(&g_hmi);
+/*   HMI_Init(&g_hmi, &huart3);
+  HMI_SendInitScreen(&g_hmi) */;
 //  FreqMeasure_Init(&g_freq_measure, &htim2);
-  Scheduler_Init();
+/*   Scheduler_Init() */;
   Init_AD9910();
-  AD9910_FreWrite(9800000.0);      
-  ADC_Task_Start();                 
+  AD9910_FreWrite(9800000.0);  
+  ADC_Task_Init(&htim3, &hadc1);  
+   ADC_Task_Start();                 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-      Scheduler_Run();
+/*       Scheduler_Run() */;
 
       /*ADC完成处理*/
       if (g_adc_dma_done && ddc_notdone_flag) {
@@ -215,9 +213,9 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
 }
 
 /* 串口空闲中断 — 委托 serial 模块 */
-void UsartReceive_IDLE(UART_HandleTypeDef *huart) {
-    Serial_RxOnIdle(huart);
-}
+// void UsartReceive_IDLE(UART_HandleTypeDef *huart) {
+//     Serial_RxOnIdle(huart);
+// }
 /* USER CODE END 4 */
 
  /* MPU Configuration */

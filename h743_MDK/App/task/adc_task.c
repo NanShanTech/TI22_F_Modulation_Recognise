@@ -85,6 +85,7 @@ float32_t ADC_Task_RFFT(uint16_t *adc_buffer, float32_t *buffer,
   arm_rfft_fast_f32(&S, buffer, pDst, 0);
   memset(buffer,FFT_N,0.0f);//buffer归零
   arm_cmplx_mag_f32(fft_buffer, buffer, FFT_N / 2);
+  memcpy(buffer, pDst, blockSize);
   float32_t intergration_val = get_inband_integration(
       buffer, FREQ_START, FREQ_END, blockSize / 2, FREQ_S, FFT_N);
   return intergration_val;

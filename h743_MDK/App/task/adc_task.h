@@ -18,7 +18,7 @@
 #include "arm_math_types.h"
 
 /* ---- ADC DMA 缓冲区（AXI SRAM，non-cacheable）---- */
-extern uint16_t g_adc_buffer[FFT_N];
+extern __attribute__((section(".AXI_SRAM"))) uint16_t g_adc_buffer[FFT_N];
 
 /* ---- DMA 一帧完成标志（ISR 中置 1，主循环清 0）---- */
 extern volatile uint8_t g_adc_dma_done;
