@@ -1,6 +1,7 @@
 import numpy as np
 from scipy import signal
 from typing import Any, cast
+import matplotlib.pyplot as plt
 from dataclasses import dataclass
 import numpy as np
 import windows
@@ -59,6 +60,8 @@ def get_iq(
     y_t = np.sin(2 * np.pi * fc * time_seq)
     i_seq = seq * x_t
     q_seq = seq * y_t
+    # plt.plot(range(len(i_seq)), np.abs(np.fft.fft(i_seq)))
+    # plt.show()
     i_seq_filted = lpf_100k(i_seq)
     q_seq_filted = lpf_100k(q_seq)
     return IQSeq(i_seq=i_seq_filted, q_seq=q_seq_filted)

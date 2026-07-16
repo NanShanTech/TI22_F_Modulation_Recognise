@@ -169,6 +169,8 @@ project:
         - file: ../App/demodulation/demodulation.h
         - file: ../App/demodulation/demodulation_app.c
         - file: ../App/demodulation/demodulation_app.h
+        - file: ../App/demodulation/dc_blocker_biquad.h
+        - file: ../App/demodulation/dc_blocker_biquad.c
   components:
     - component: ARM::CMSIS:CORE
     - component: CMSIS:DSP&Source

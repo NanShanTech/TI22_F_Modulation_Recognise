@@ -16,6 +16,38 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 from pathlib import Path
+from scipy import signal
+from typing import Any, cast
+
+
+def lpf_100k(seq: np.ndarray) -> np.ndarray:
+    fs = 1.024e6
+    f_pass = 100e3
+    f_stop = 250e3
+    attenuation_db = 60.0
+
+    normalized_width = (f_stop - f_pass) / (fs / 2.0)
+
+    num_taps_raw, beta_raw = signal.kaiserord(
+        ripple=attenuation_db,
+        width=normalized_width,
+    )
+
+    num_taps = int(num_taps_raw)
+    beta = float(beta_raw)
+    window_spec: Any = ("kaiser", beta)
+
+    b = signal.firwin(
+        numtaps=num_taps,
+        cutoff=175e3,
+        window=window_spec,
+        pass_zero=True,
+        fs=fs,
+        scale=True,
+    )
+
+    y = signal.lfilter(b, 1.0, seq)
+    return cast(np.ndarray, y)
 
 
 def parse_intel_hex(filepath):
@@ -85,7 +117,8 @@ def main():
 
     # 解析为 float32 (小端)
     samples = np.frombuffer(raw_data, dtype="<f4")
-    # samples = np.abs(np.fft.fft(samples))
+    samples = lpf_100k(samples)
+    samples = np.abs(np.fft.fft(samples))
     print(f"float32 样本数: {len(samples)}")
 
     if len(samples) == 0:

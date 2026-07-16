@@ -25,10 +25,10 @@ void get_iq(float32_t *pSrc, float32_t *pIBuffer, float32_t *pQBuffer,
   float32_t Ts = 1.0f / fs_hz;
   for (uint32_t i = 0; i < blockSize; i++)
     pBuffer[i] = pSrc[i] * arm_cos_f32(2 * PI * carrier_freq * (float32_t)i * Ts);
-  fir_lpf_100k_process_block(pBuffer, pQBuffer);
-  for (uint32_t i = 0; i < blockSize; i++)
-    pQBuffer[i] = pSrc[i] * arm_sin_f32(2 * PI * carrier_freq * (float32_t)i * Ts);
   fir_lpf_100k_process_block(pBuffer, pIBuffer);
+  for (uint32_t i = 0; i < blockSize; i++)
+    pBuffer[i] = pSrc[i] * arm_sin_f32(2 * PI * carrier_freq * (float32_t)i * Ts);
+  fir_lpf_100k_process_block(pBuffer, pQBuffer);
 }
 
 void get_envelope(float32_t *pIBuffer, float32_t *pQBuffer, float32_t *pDst, float32_t blockSize) {

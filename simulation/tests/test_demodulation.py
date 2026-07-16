@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+import numpy as np
 import sys
 from pathlib import Path
 
@@ -11,14 +13,14 @@ FS_ANA = 262.144e6
 N_ANA = 1048576
 FS = 1.024e6
 N_PTS = 4096
-CARRIER_FREQ = 30e6  # 载波频率 10 MHz
+CARRIER_FREQ = 10e6  # 载波频率 10 MHz
 CARRIER_AMP = 1.0  # 载波幅度 1 V
-MOD_FREQ = 3e3  # 调制频率 3 kHz
+MOD_FREQ = 1e3  # 调制频率 3 kHz
 MOD_AMP = 0.5  # 调制幅度 0.1 (即 AM 调制指数 / FM 频偏系数)
 ENV_CV_GATE = 0.08
 FREQ_CV_GATE = 0.0177
 
-seq = modulation.fm_modulation(
+seq = modulation.am_modulation(
     fs_hz=FS_ANA,
     n_pts=N_ANA,
     carrier_freq=CARRIER_FREQ,
@@ -64,6 +66,8 @@ demodulation_data = demodulation.demodulation(
     fs_hz=FS,
     modulation_type=modulation_method,
 )
+plt.plot(range(N_PTS), np.abs(np.fft.fft(iq_samples.i_seq)))
+plt.show()
 print("demodulation freq: %f", demodulation_data.freq)
 print("demodulation amplitude %f", demodulation_data.amplitude)
 print("modulation rate %f", demodulation_data.m)
