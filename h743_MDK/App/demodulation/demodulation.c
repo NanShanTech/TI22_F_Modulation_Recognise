@@ -62,12 +62,10 @@ ModType_t determine_modulation_method(float32_t *pEnvelope, float32_t *pFreq,
   float32_t envelope_std, freq_std;
   arm_mean_f32(pEnvelope, blockSize, &envelope_mean);
   arm_mean_f32(pFreq, blockSize, &freq_mean);
-  envelope_mean += 1e-9;
-  freq_mean += 1e-9;
   arm_std_f32(pEnvelope, blockSize, &envelope_std);
   arm_std_f32(pFreq, blockSize, &freq_std);
-  float32_t envelope_cv = envelope_std / envelope_mean;
-  float32_t freq_cv = freq_std / freq_mean;
+  float32_t envelope_cv = envelope_std / (envelope_mean+1e-20);
+  float32_t freq_cv = freq_std / (freq_mean+1e-20);
   if (envelope_cv > env_cv_gate) {
     return MOD_AM;
   } else if (freq_cv > freq_cv_gate) {

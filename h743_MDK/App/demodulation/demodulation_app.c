@@ -4,6 +4,7 @@
 #include "arm_math_types.h"
 #include "dc_blocker_biquad.h"
 #include "dsp/filtering_functions.h"
+#include <stdint.h>
 #include "demodulation_app.h"
 __attribute__((section(".AXI_SRAM"))) float32_t adc_buffer[FFT_N];
 __attribute__((section(".AXI_SRAM"))) float32_t buffer1[FFT_N];
