@@ -61,12 +61,10 @@ cbuild-run:
     - file: ${CMSIS_PACK_ROOT}/Keil/STM32H7xx_DFP/2.7.0/CMSIS/SVD/STM32H743.svd
       type: svd
   debugger:
-    name: CMSIS-DAP@pyOCD
-    protocol: swd
-    clock: 10000000
+    name: CMSIS-DAP@Arm-Debugger
     dbgconf: ../.cmsis/h743_hal+h743_hal.dbgconf
-    gdbserver:
-      - port: 3333
+    protocol-armdbg: auto
+    clock-armdbg: auto
   debug-vars:
     vars: |
       // Debug Access Variables, can be modified by user via copies of DBGCONF files as created by uVision. Also see sub-family level.

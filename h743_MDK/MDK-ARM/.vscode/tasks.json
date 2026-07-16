@@ -4,103 +4,18 @@
         {
             "label": "CMSIS Load+Run",
             "problemMatcher": [],
-            "dependsOn": [
-                "CMSIS Load",
-                "CMSIS Run"
+            "type": "arm-debugger.flash",
+            "connectionAddress": "*",
+            "connectionType": "CMSIS-DAP",
+            "programs": [
+                "${command:arm-debugger.getApplicationFiles}"
             ],
-            "dependsOrder": "sequence"
-        },
-        {
-            "label": "CMSIS Erase",
-            "type": "shell",
-            "command": "pyocd",
-            "options": {
-                "cwd": "${workspaceFolder}/",
-                "shell": {
-                    "executable": "/bin/bash",
-                    "args": [
-                        "-c"
-                    ]
-                }
-            },
-            "args": [
-                "erase",
-                "--probe",
-                "cmsisdap:",
-                "--chip",
-                "--cbuild-run",
-                "${command:cmsis-csolution.getCbuildRunFile}"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "CMSIS Load",
-            "type": "shell",
-            "command": "pyocd",
-            "options": {
-                "cwd": "${workspaceFolder}/",
-                "shell": {
-                    "executable": "/bin/bash",
-                    "args": [
-                        "-c"
-                    ]
-                }
-            },
-            "args": [
-                "load",
-                "--probe",
-                "cmsisdap:",
-                "--cbuild-run",
-                "${command:cmsis-csolution.getCbuildRunFile}"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "CMSIS Run",
-            "type": "shell",
-            "command": "pyocd",
-            "options": {
-                "cwd": "${workspaceFolder}/",
-                "shell": {
-                    "executable": "/bin/bash",
-                    "args": [
-                        "-c"
-                    ]
-                }
-            },
-            "args": [
-                "gdbserver",
-                "--probe",
-                "cmsisdap:",
-                "--persist",
-                "--reset-run",
-                "--cbuild-run",
-                "${command:cmsis-csolution.getCbuildRunFile}",
-                "--quiet",
-                "--log",
-                "*.cbuild_run,*server=info"
-            ],
-            "problemMatcher": []
-        },
-        {
-            "label": "CMSIS TargetInfo",
-            "type": "shell",
-            "command": "pyocd",
-            "options": {
-                "cwd": "${workspaceFolder}/",
-                "shell": {
-                    "executable": "/bin/bash",
-                    "args": [
-                        "-c"
-                    ]
-                }
-            },
-            "args": [
-                "list",
-                "--cbuild-run",
-                "${command:cmsis-csolution.getCbuildRunFile}"
-            ],
-            "problemMatcher": []
+            "cmsisPack": "${command:cmsis-csolution.getDfpName}",
+            "deviceName": "${command:cmsis-csolution.getDeviceName}",
+            "processorName": "${command:cmsis-csolution.getProcessorName}",
+            "workspaceFolder": "${workspaceFolder}/",
+            "debugClockSpeed": "auto",
+            "debugPortMode": "auto"
         }
     ]
 }

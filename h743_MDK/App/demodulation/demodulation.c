@@ -43,7 +43,7 @@ void get_delta_f(float32_t *pIBuffer, float32_t *pQBuffer, uint32_t blockSize,
     float32_t cross =
         (pIBuffer[i - 1] * pQBuffer[i]) - (pIBuffer[i] * pQBuffer[i - 1]);
     float32_t dot =
-        (pIBuffer[i - 1] * pIBuffer[i]) + (pQBuffer[i - 1] * pQBuffer[i]);
+        (pIBuffer[i - 1] * pIBuffer[i]) + (pQBuffer[i - 1] * pQBuffer[i]) + 1e-9;
     float32_t delta_phi = cross / dot;
     float32_t f = delta_phi / (2 * PI * Ts);
     pDst[i] = f;
@@ -58,6 +58,8 @@ ModType_t determine_modulation_method(float32_t *pEnvelope, float32_t *pFreq,
   float32_t envelope_std, freq_std;
   arm_mean_f32(pEnvelope, blockSize, &envelope_mean);
   arm_mean_f32(pFreq, blockSize, &freq_mean);
+  envelope_mean += 1e-9;
+  freq_mean += 1e-9;
   arm_std_f32(pEnvelope, blockSize, &envelope_std);
   arm_std_f32(pFreq, blockSize, &freq_std);
   float32_t envelope_cv = envelope_std / envelope_mean;

@@ -30,8 +30,7 @@ uint8_t ddc_notdone_flag = 1;
 __attribute__((section(".AXI_SRAM"))) float32_t buffer[FFT_N];
 __attribute__((section(".AXI_SRAM"))) float32_t fft_buffer[FFT_N];
 float32_t intergration_buffer[50];
-static volatile uint32_t intergration_read_index = 0;
-
+uint32_t intergration_read_index = 0;
 float32_t freq_lo;
 /* ---- 应用初始化 ---- */
 void Tasks_Init(UART_HandleTypeDef *huart_hmi)
@@ -48,17 +47,21 @@ void App_process(void)
     g_adc_dma_done = 0;
     ADC_Task_Stop();
     ADC_Task_RFFT(g_adc_buffer, buffer, fft_buffer, FFT_N);
+    if (g_sweep_freq_hz == 9800000.0f)
+        intergration_read_index = 0;
     float32_t intergration = get_inband_integration(fft_buffer, FREQ_START, FREQ_END, FFT_N, FREQ_S, FFT_N);
     intergration_buffer[intergration_read_index] = intergration;
     intergration_read_index += 1;
     //ADC_Task_FFT(&g_wave_info);
-
     if (g_sweep_freq_hz > 29800000.0f) {
 			uint32_t freq_index;
             arm_max_f32(intergration_buffer, 50, &freq_lo, &freq_index);
-            AD9910_FreWrite((double)freq_lo);
+            freq_index *= 500e3;
+            freq_index += 9.8e6;
+            AD9910_FreWrite((double)freq_index);
             ADC_Task_Start();
             ddc_notdone_flag = 0;
+            g_sweep_freq_hz = 9800000.0f;
             return;
 			
     } else {
