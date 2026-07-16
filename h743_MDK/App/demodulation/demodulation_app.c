@@ -5,6 +5,7 @@
 #include "dc_blocker_biquad.h"
 #include "dsp/filtering_functions.h"
 #include "demodulation_app.h"
+#include "ad9220.h"
 __attribute__((section(".AXI_SRAM"))) float32_t adc_buffer[FFT_N];
 __attribute__((section(".AXI_SRAM"))) float32_t buffer1[FFT_N];
 __attribute__((section(".AXI_SRAM"))) float32_t buffer2[FFT_N];
@@ -14,7 +15,8 @@ __attribute__((section(".AXI_SRAM"))) float32_t envelope_buffer[FFT_N];
 __attribute__((section(".AXI_SRAM"))) float32_t freq_buffer[FFT_N];
 DemodulationData do_demodulation(void){
     for(uint32_t i=0;i<FFT_N;i++){
-        adc_buffer[i] = (float32_t)g_adc_buffer[i];
+        adc_buffer[i] = (float32_t)(g_adc_buffer[i + AD9220_SETTLING_SAMPLES]
+                                    & AD9220_CODE_MASK);
     }
     DCBlocker_Init();
     arm_biquad_cascade_df2T_f32(&g_dc_blocker, adc_buffer, adc_buffer, FFT_N);

@@ -12,6 +12,9 @@
  * 一、FFT 频谱分析参数
  *===========================================================================*/
 #define FFT_N           4096        // FFT 点数（必须是 2 的幂，最大 16384）
+#if (FFT_N == 0) || ((FFT_N & (FFT_N - 1)) != 0)
+#error "FFT_N must be a power of two"
+#endif
 #define FREQ_S          1024000     // ADC 采样率 (Hz)，需与 TIM3 触发频率匹配
 #define FFT_N_2         (FFT_N / 2) // 频谱有效点数（自动计算，勿改）
 

@@ -18,9 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "adc.h"
 #include "dma.h"
-#include "stm32h7xx_hal.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -104,10 +102,9 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_ADC1_Init();
-  MX_TIM3_Init();
   MX_USART3_UART_Init();
   MX_USART1_UART_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 /*   Serial_RxInit(&huart3) */;
 
@@ -120,7 +117,7 @@ int main(void)
 /*   Scheduler_Init() */;
   Init_AD9910();
   AD9910_FreWrite(9800000.0);  
-  ADC_Task_Init(&htim3, &hadc1);  
+  ADC_Task_Init();
    ADC_Task_Start();                 
   /* USER CODE END 2 */
 
@@ -205,12 +202,10 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
-/* DMA 传输完成回调（DMA_NORMAL 模式，每 FFT_N 点触发一次）*/
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
+/* DMA normal 模式每采集 FFT_N + 4 点触发一次，FFT 仍使用 FFT_N 点。 */
+void AD9220_ConvCpltCallback(void)
 {
-    if (hadc->Instance == ADC1) {
-        g_adc_dma_done = 1;
-    }
+    g_adc_dma_done = 1;
 }
 
 /* 串口空闲中断 — 委托 serial 模块 */
