@@ -20,7 +20,7 @@ DemodulationData do_demodulation(void){
         adc_buffer[i] -= 2048.0f;
     }
     DCBlocker_Init();
-    arm_biquad_cascade_df2T_f32(&g_dc_blocker, adc_buffer, adc_buffer, FFT_N);
+    //arm_biquad_cascade_df2T_f32(&g_dc_blocker, adc_buffer, adc_buffer, FFT_N);
     fir_lpf_100k_init();
     get_iq(adc_buffer, Ibuffer, Qbuffer, buffer1, FFT_N, CARRIER_FREQ, FREQ_S);
     get_envelope(Ibuffer, Qbuffer, envelope_buffer, FFT_N);

@@ -118,7 +118,7 @@ def main():
     # 解析为 float32 (小端)
     samples = np.frombuffer(raw_data, dtype="<f4")
     # samples = lpf_100k(samples)
-    # samples = np.abs(np.fft.fft(samples))
+    samples = np.abs(np.fft.fftshift(np.fft.fft(samples)))
     print(f"float32 样本数: {len(samples)}")
 
     if len(samples) == 0:

@@ -12,7 +12,7 @@
 		"debug.hideSlowPreLaunchWarning": true,
 		"debug.showInStatusBar": "never",
 		"clangd.arguments": [
-			"--compile-commands-dir=/home/h3_saki/Documents/Electronic_Engineering/105_Training/TI22_F_Modulation_Recognise/h743_MDK/MDK-ARM/out/h743_hal/h743_hal"
+			"--compile-commands-dir=/home/h3_saki/Documents/Electronic_Engineering/105_training/TI22_F_Modulation_Recognise/h743_MDK/MDK-ARM/out/h743_hal/h743_hal"
 		],
 		"cmsis-csolution.autoDebugLaunch": true,
 		"memory-inspector.addressPadding": "32bit",
