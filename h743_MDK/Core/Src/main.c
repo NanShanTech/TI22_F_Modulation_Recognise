@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "dma.h"
+#include "tasks.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -128,12 +129,15 @@ int main(void)
 /*       Scheduler_Run() */;
 
       /*ADC完成处理*/
-      if (g_adc_dma_done && ddc_notdone_flag) {
+      if (g_adc_dma_done) {
+        if(ddc_notdone_flag){
           App_process();
-      } else if (g_adc_dma_done && demodulation_notcomplete_flag) {
-        ADC_Task_Stop();
-        demodulation_result = do_demodulation();
-        demodulation_notcomplete_flag = 0;  
+        }
+        if((!ddc_notdone_flag) && demodulation_notcomplete_flag){
+          ADC_Task_Stop();
+          demodulation_result = do_demodulation();
+          demodulation_notcomplete_flag = 0;  
+        }
       }
     /* USER CODE END WHILE */
 

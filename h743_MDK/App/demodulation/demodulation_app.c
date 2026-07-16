@@ -17,6 +17,7 @@ DemodulationData do_demodulation(void){
     for(uint32_t i=0;i<FFT_N;i++){
         adc_buffer[i] = (float32_t)(g_adc_buffer[i + AD9220_SETTLING_SAMPLES]
                                     & AD9220_CODE_MASK);
+        adc_buffer[i] -= 2048.0f;
     }
     DCBlocker_Init();
     arm_biquad_cascade_df2T_f32(&g_dc_blocker, adc_buffer, adc_buffer, FFT_N);
