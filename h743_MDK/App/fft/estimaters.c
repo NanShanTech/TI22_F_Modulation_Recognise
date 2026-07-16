@@ -228,7 +228,7 @@ EstimateData estimate_freq_amplitude_phase(const float32_t *pSrc,
   amp_estimated = _AMP_METHODS[window_type](x_k0, freq_delta);
   amp_estimated /= n_pts * coherent_gain;
   phase_estimated = estimate_phase(angle_ori, freq_delta, n_pts);
-  out.freq_estimated = (peak_bin + freq_delta) * (fs_hz / (float32_t)n_pts);
+  out.freq_estimated = (peak_bin + freq_delta) * (fs_hz / (2 * (float32_t)n_pts));
   out.amplitude_estimated = amp_estimated;
   out.phase_estimated = phase_estimated;
   return out;

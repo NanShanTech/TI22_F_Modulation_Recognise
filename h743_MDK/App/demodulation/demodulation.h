@@ -16,8 +16,7 @@ void get_iq(float32_t *pSrc, float32_t *pIBuffer, float32_t *pQBuffer,
             float32_t *pBuffer, uint32_t blockSize, float32_t carrier_freq,
             float32_t fs_hz);
 
-void get_envelope(float32_t *pIBuffer, float32_t *pQBuffer, float32_t *pBuffer1,
-                  float32_t *pBuffer2, float32_t *pDst, float32_t blockSize);           
+void get_envelope(float32_t *pIBuffer, float32_t *pQBuffer, float32_t *pDst, float32_t blockSize);           
 
 void get_delta_f(float32_t *pIBuffer, float32_t *pQBuffer, uint32_t blockSize,
                  float32_t fs_hz, float32_t *pDst);

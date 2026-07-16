@@ -2,8 +2,11 @@
 #include "arm_math.h"
 #include "arm_math_types.h"
 #include "dsp/basic_math_functions.h"
+#include "dsp/fast_math_functions.h"
+#include "dsp/statistics_functions.h"
 #include "estimaters.h"
 #include "lpf_fir.h"
+#include <stdint.h>
 #include "demodulation.h"
 
 static arm_fir_instance_f32 fir_instance;
@@ -21,25 +24,26 @@ void get_iq(float32_t *pSrc, float32_t *pIBuffer, float32_t *pQBuffer,
             float32_t fs_hz) {
   float32_t Ts = 1.0f / fs_hz;
   for (uint32_t i = 0; i < blockSize; i++)
-    pBuffer[i] = pSrc[i] * arm_cos_f32(2 * PI * carrier_freq * (float32_t)i);
+    pBuffer[i] = pSrc[i] * arm_cos_f32(2 * PI * carrier_freq * (float32_t)i * Ts);
   fir_lpf_100k_process_block(pBuffer, pQBuffer);
   for (uint32_t i = 0; i < blockSize; i++)
-    pBuffer[i] = pSrc[i] * arm_sin_f32(2 * PI * carrier_freq * (float32_t)i);
+    pQBuffer[i] = pSrc[i] * arm_sin_f32(2 * PI * carrier_freq * (float32_t)i * Ts);
   fir_lpf_100k_process_block(pBuffer, pIBuffer);
 }
 
-void get_envelope(float32_t *pIBuffer, float32_t *pQBuffer, float32_t *pBuffer1,
-                  float32_t *pBuffer2, float32_t *pDst, float32_t blockSize) {
-  memset(pDst, 0.0f, blockSize);
-  arm_mult_f32(pIBuffer, pIBuffer, pBuffer1, blockSize);
-  arm_mult_f32(pQBuffer, pQBuffer, pBuffer2, blockSize);
-  arm_add_f32(pBuffer1, pBuffer2, pDst, blockSize);
+void get_envelope(float32_t *pIBuffer, float32_t *pQBuffer, float32_t *pDst, float32_t blockSize) {
+  for(uint32_t i=0;i<blockSize;i++){
+    float32_t env_square = (pIBuffer[i] * pIBuffer[i]) + (pQBuffer[i] * pQBuffer[i]);
+    float32_t envelope;
+    arm_sqrt_f32(env_square, &envelope);
+    pDst[i] = envelope;
+  }
 }
 
 void get_delta_f(float32_t *pIBuffer, float32_t *pQBuffer, uint32_t blockSize,
                  float32_t fs_hz, float32_t *pDst) {
   float32_t Ts = 1.0f / fs_hz;
-  for (uint32_t i = 0; i < blockSize; i++) {
+  for (uint32_t i = 1; i < blockSize; i++) {
     float32_t cross =
         (pIBuffer[i - 1] * pQBuffer[i]) - (pIBuffer[i] * pQBuffer[i - 1]);
     float32_t dot =
@@ -86,6 +90,7 @@ DemodulationData demodulation(float32_t *pEnvelope, float32_t *pFreq,
     break;
   case MOD_FM:
     pDemodulation = pFreq;
+    float32_t freq_mean;
     out_result.modetype = MOD_FM;
     break;
   default:
@@ -95,19 +100,28 @@ DemodulationData demodulation(float32_t *pEnvelope, float32_t *pFreq,
     out_result.m = -114514.0f;
     return out_result;
   }
+  float32_t dc_amp;
+  arm_mean_f32(pDemodulation, blockSize, &dc_amp);
+  dc_amp /= 0.5f; // hann窗相干增益
+  for(uint32_t i=0;i<blockSize;i++){
+    pDemodulation[i] = pDemodulation[i] - dc_amp;
+    pBuffer1[i] = 0.0f;
+  }
   arm_hanning_f32(pBuffer1, blockSize);
   arm_mult_f32(pDemodulation, pBuffer1, pBuffer2, blockSize);
   arm_rfft_fast_instance_f32 S;
   arm_rfft_fast_init_4096_f32(&S);
   arm_rfft_fast_f32(&S, pBuffer2, pBuffer1, 0);
+  for(uint32_t i=0;i<blockSize;i++)
+    pBuffer2[i] = 0.0f;
   arm_cmplx_mag_f32(pBuffer1, pBuffer2, blockSize / 2);
   float32_t max_peak, ma;
-  float32_t dc_amp = pBuffer2[0];
-  dc_amp /= blockSize * 0.5f; // hann窗相干增益
   uint32_t max_peak_index;
-  arm_max_f32(pBuffer2 + 2U, blockSize / 2, &max_peak, &max_peak_index);
-  max_peak_index += 2;
-  max_peak_index *= 2;
+  for (uint32_t i=0; i<4; i++)
+    pBuffer2[i] = 0.0f;
+  for (uint32_t i=400;i<blockSize;i++)
+    pBuffer2[i] = 0.0f;
+  arm_max_f32(pBuffer2, blockSize / 2, &max_peak, &max_peak_index);
   EstimateData demode_data = estimate_freq_amplitude_phase(
       pBuffer1, blockSize, max_peak_index, fs_hz, HANN, AUTO);
   float32_t freq_demod = demode_data.freq_estimated;

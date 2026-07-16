@@ -138,8 +138,6 @@ project:
         - file: ../App/comm/serial.h
     - group: Task
       files:
-        - file: ../App/measure/freq_measure.c
-        - file: ../App/measure/freq_measure.h
         - file: ../App/task/adc_task.c
         - file: ../App/task/adc_task.h
         - file: ../App/task/scheduler.c

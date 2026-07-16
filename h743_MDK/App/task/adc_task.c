@@ -77,16 +77,16 @@ void ADC_Task_SetSpeed(Wave_Struct *wave) {
   HAL_Delay(1);
 }
 
-float32_t ADC_Task_RFFT(uint16_t *adc_buffer, float32_t *buffer,
+float32_t ADC_Task_RFFT(uint16_t *pAdcBuffer, float32_t *pBuffer,
                         float32_t *pDst, uint32_t blockSize) {
   arm_rfft_fast_instance_f32 S;
-  rfft_prepare(adc_buffer, buffer, blockSize);
+  rfft_prepare(pAdcBuffer, pDst, blockSize);
   arm_rfft_fast_init_4096_f32(&S);
-  arm_rfft_fast_f32(&S, buffer, pDst, 0);
-  memset(buffer,FFT_N,0.0f);//buffer归零
-  arm_cmplx_mag_f32(fft_buffer, buffer, FFT_N / 2);
-  memcpy(buffer, pDst, blockSize);
+  arm_rfft_fast_f32(&S, pDst, pBuffer, 0);
+  for(uint32_t i=0;i<blockSize;i++)
+    pDst[i] = 0.0f;
+  arm_cmplx_mag_f32(pBuffer, pDst, FFT_N / 2);
   float32_t intergration_val = get_inband_integration(
-      buffer, FREQ_START, FREQ_END, blockSize / 2, FREQ_S, FFT_N);
+      pDst, FREQ_START, FREQ_END, blockSize / 2, FREQ_S, FFT_N);
   return intergration_val;
 }

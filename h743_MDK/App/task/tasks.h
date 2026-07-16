@@ -20,7 +20,7 @@ extern FreqMeasure   g_freq_measure;
 extern HMI_Comm      g_hmi;
 extern DacAwgState_t g_dac_awg;
 extern uint8_t ddc_notdone_flag;
-extern float32_t buffer[FFT_N];
+extern float32_t mag_buffer[FFT_N];
 extern float32_t fft_buffer[FFT_N];
 extern float32_t intergration_buffer[50];
 extern float32_t freq_lo;

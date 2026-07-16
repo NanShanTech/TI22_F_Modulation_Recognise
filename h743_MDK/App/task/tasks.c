@@ -27,7 +27,7 @@ Wave_Struct g_wave_info;
 FreqMeasure g_freq_measure;
 HMI_Comm    g_hmi;
 uint8_t ddc_notdone_flag = 1;
-__attribute__((section(".AXI_SRAM"))) float32_t buffer[FFT_N];
+__attribute__((section(".AXI_SRAM"))) float32_t mag_buffer[FFT_N];
 __attribute__((section(".AXI_SRAM"))) float32_t fft_buffer[FFT_N];
 float32_t intergration_buffer[50];
 uint32_t intergration_read_index = 0;
@@ -46,19 +46,20 @@ void App_process(void)
 {
     g_adc_dma_done = 0;
     ADC_Task_Stop();
-    HAL_Delay(100);
-    ADC_Task_RFFT(g_adc_buffer, buffer, fft_buffer, FFT_N);
+   float32_t intergration =  ADC_Task_RFFT(g_adc_buffer, mag_buffer, fft_buffer, FFT_N);
     if (g_sweep_freq_hz == 9800000.0f)
         intergration_read_index = 0;
-    float32_t intergration = get_inband_integration(fft_buffer, FREQ_START, FREQ_END, FFT_N, FREQ_S, FFT_N);
     intergration_buffer[intergration_read_index] = intergration;
     intergration_read_index += 1;
     //ADC_Task_FFT(&g_wave_info);
     if (g_sweep_freq_hz > 29800000.0f) {
 			uint32_t freq_index;
             arm_max_f32(intergration_buffer, 50, &freq_lo, &freq_index);
+            if (freq_index > 0)
+                freq_index -= 1;
             freq_index *= 500e3;
             freq_index += 9.8e6;
+            freq_lo = freq_index;
             AD9910_FreWrite((double)freq_index);
             HAL_Delay(100);
             ADC_Task_Start();
