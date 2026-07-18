@@ -84,13 +84,68 @@ def bpf_100k_300k(seq: np.ndarray) -> np.ndarray:
     return cast(np.ndarray, y)
 
 
+def design_lpf_decimate_128k() -> np.ndarray:
+    fs_in = 1.024e6
+    decimation = 8
+
+    f_pass = 12e3
+    f_stop = 40e3
+    attenuation_db = 60.0
+
+    normalized_width = (f_stop - f_pass) / (fs_in / 2.0)
+
+    num_taps_raw, beta_raw = signal.kaiserord(
+        ripple=attenuation_db,
+        width=normalized_width,
+    )
+
+    beta = float(beta_raw)
+
+    num_taps = int(
+        np.ceil((int(num_taps_raw) - 1) / (2 * decimation)) * (2 * decimation) + 1
+    )
+
+    cutoff = 0.5 * (f_pass + f_stop)
+    window_spec: Any = ("kaiser", beta)
+
+    coeffs = signal.firwin(
+        numtaps=num_taps,
+        cutoff=cutoff,
+        window=window_spec,
+        pass_zero=True,
+        fs=fs_in,
+        scale=True,
+    )
+
+    return cast(np.ndarray, coeffs)
+
+
+LPF_DECIMATE_128K_COEFFS = design_lpf_decimate_128k()
+
+
+def lpf_decimate_128k(seq: np.ndarray) -> np.ndarray:
+    filtered = signal.lfilter(
+        LPF_DECIMATE_128K_COEFFS,
+        1.0,
+        seq,
+    )
+
+    decimated = filtered[::8]
+
+    return cast(np.ndarray, decimated)
+
+
 fs = 1.024e6
 n = 4096
+fs_down = 128e3
+n_down = 512
 Ts = 1 / fs
 carrier_freq = 200e3
 timeseq = np.arange(n) * Ts
 sampled_seq = readhex.readhex("adc_buffer_16384_3.hex")
 sampled_seq_mean = np.mean(sampled_seq)
+sampled_seq = sampled_seq - sampled_seq_mean
+sampled_seq /= np.abs(sampled_seq_mean)
 sampled_seq_blocked = bpf_100k_300k(sampled_seq)
 i_seq = sampled_seq_blocked * np.cos(2 * np.pi * carrier_freq * timeseq)
 q_seq = sampled_seq_blocked * np.sin(2 * np.pi * carrier_freq * timeseq)
@@ -114,57 +169,12 @@ for i in range(1, len(sampled_seq)):
 freq_seq = np.array(freq_seq)
 freq_seq_mean = np.mean(freq_seq)
 freq_seq -= freq_seq_mean
-# envelope_seq = sampled_seq_blocked
-corrlation_list = []
-for i in range(1, 11):
-    freq_test = i * 1e3
-    test_sig = np.cos(2 * np.pi * freq_test * timeseq)
-    env_corr = np.correlate(envelope_seq, test_sig)
-    corr_peak = np.max(env_corr)
-    corrlation_list.append(corr_peak)
-
-corrlation_list = np.array(corrlation_list)
-max_corr = np.max(corrlation_list)
-max_corr_index = np.argmax(corrlation_list)
-max_corr_index += 1
-max_corr_index *= 1e3
-
-freq_corr_list = []
-for i in range(1, 11):
-    freq_test = i * 1e3
-    test_sig = np.cos(2 * np.pi * freq_test * timeseq)
-    freq_corr = np.correlate(freq_seq, test_sig)
-    corr_peak = np.max(freq_corr)
-    freq_corr_list.append(corr_peak)
-freq_corr_list = np.array(freq_corr_list)
-max_freq_corr = np.max(freq_corr_list)
-max_freq_corr_index = np.argmax(freq_corr_list)
-max_freq_corr_index += 1
-max_freq_corr_index *= 1e3
-
-test_sig_cos = np.cos(2 * np.pi * freq_test * timeseq)
-test_sig_sin = np.sin(2 * np.pi * freq_test * timeseq)
-power_sin = test_sig_sin * envelope_seq
-power_cos = test_sig_cos * envelope_seq
-power_sin = np.sum(power_sin)
-power_cos = np.sum(power_cos)
-power = np.sqrt((power_sin * power_sin) + (power_cos * power_cos))
-power *= 2 / n
-test_sig_cos = np.cos(2 * np.pi * freq_test * timeseq)
-test_sig_sin = np.sin(2 * np.pi * freq_test * timeseq)
-freq_power_sin = test_sig_sin[:4095] * freq_seq
-freq_power_cos = test_sig_cos[:4095] * freq_seq
-freq_power_sin = np.sum(freq_power_sin)
-freq_power_cos = np.sum(freq_power_cos)
-freq_power = np.sqrt(
-    (freq_power_sin * freq_power_sin) + (freq_power_cos * freq_power_cos)
-)
-freq_power *= 2 / n
-print(max_corr_index)
-print(power)
-print(max_freq_corr_index)
-print(freq_power)
+envelope_seq_down = lpf_decimate_128k(envelope_seq)
+freq_seq_down = lpf_decimate_128k(freq_seq)
+fs_show = fs
+n_show = n
 plt.plot(
-    np.arange(-1 * 512e3, 512e3, 250), np.abs(np.fft.fftshift(np.fft.fft(envelope_seq)))
+    np.arange(-1 * fs_show / 2, fs_show / 2, fs_show / n_show),
+    np.abs(np.fft.fftshift(np.fft.fft(envelope_seq))),
 )
 plt.show()
