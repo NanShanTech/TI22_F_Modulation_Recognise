@@ -133,7 +133,7 @@ Wave_Struct determine_modulation_method_coherence(DemodCandidate demode_result_a
   Wave_Struct out = {
     .mod_type = MOD_CW,
     .carrier_freq = freq_lo,
-    .mod_freq = 0,
+    .mod_freq = freq_lo + 200000.0f,
     .mod_depth = 0,
     .mod_vpp = 0
   };

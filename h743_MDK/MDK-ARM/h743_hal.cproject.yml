@@ -19,6 +19,7 @@ project:
         - ../App/comm
         - ../App/dac
         - ../App/dds
+        - ../App/demodulation
         - ../App/fft
         - ../App/measure
         - ../App/task
@@ -93,6 +94,7 @@ project:
         - file: ../Core/Src/usart.c
         - file: ../Core/Src/stm32h7xx_it.c
         - file: ../Core/Src/stm32h7xx_hal_msp.c
+        - file: ../Core/Src/dac.c
     - group: Drivers/STM32H7xx_HAL_Driver
       files:
         - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.c
@@ -116,6 +118,8 @@ project:
         - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.c
         - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.c
         - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac.c
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac_ex.c
     - group: Drivers/CMSIS
       files:
         - file: ../Core/Src/system_stm32h7xx.c
@@ -131,6 +135,8 @@ project:
         - file: ../App/utils/delay.h
         - file: ../App/comm/serial.c
         - file: ../App/comm/serial.h
+        - file: ../App/waveform.c
+        - file: ../App/wavefom.h
     - group: Task
       files:
         - file: ../App/task/adc_task.c

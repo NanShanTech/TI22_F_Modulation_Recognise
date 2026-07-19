@@ -32,8 +32,13 @@ void Serial_Printf(UART_HandleTypeDef *huart, uint32_t timeout, const char *fmt,
 
 #define RX_BUF_SIZE  500
 
+extern uint8_t  rx_buf[RX_BUF_SIZE];
+extern uint16_t rx_len;
+
 void Serial_RxInit(UART_HandleTypeDef *huart);
 void Serial_RxOnIdle(UART_HandleTypeDef *huart);
+uint8_t Serial_Triggered(void);
+void    Serial_ClearTrigger(void);
 
 /* ================================================================
  * 三、HMI 串口屏协议

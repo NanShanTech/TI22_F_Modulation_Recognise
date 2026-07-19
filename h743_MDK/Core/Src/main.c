@@ -18,12 +18,8 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "ad9910.h"
-#include "adc_task.h"
-#include "app_types.h"
+#include "dac.h"
 #include "dma.h"
-#include "stm32h7xx_hal.h"
-#include "tasks.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -33,6 +29,8 @@
 #include "app.h"
 #include "demodulation_app.h"
 #include <stdint.h>
+#include "wavefom.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -110,12 +108,14 @@ int main(void)
   MX_USART3_UART_Init();
   MX_USART1_UART_Init();
   MX_TIM2_Init();
+  MX_DAC1_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
-/*   Serial_RxInit(&huart3) */;
+  Serial_RxInit(&huart3) ;
 
- 
   // Tasks_Init(&huart3);
-
+  WaveGen_Init();
+  WaveGen_Start(WAVE_SINE, 1000); /* 默认输出 1kHz 正弦波 */
   HMI_Init(&g_hmi, &huart3);
   HMI_SendInitScreen(&g_hmi) ;
 //  FreqMeasure_Init(&g_freq_measure, &htim2);
@@ -133,6 +133,12 @@ int main(void)
   {
 /*       Scheduler_Run() */;
 
+      /* UART3 指令解析 */
+      if (rx_len >= 2 && rx_buf[0] == 0x11 && rx_buf[1] == 0x11) {
+          ddc_notdone_flag = 1;
+          demodulation_notcomplete_flag = 1;
+      }
+
       /*ADC完成处理*/
       if (g_adc_dma_done) {
         if(ddc_notdone_flag){
@@ -146,6 +152,7 @@ int main(void)
           demodulation_result = do_demodulation();
           demodulation_result.carrier_freq += 200000.0f;
           AD9910_FreWrite(demodulation_result.mod_freq);
+          AD9910_AmpWrite(10000);
           HMI_ReportWave(&g_hmi,&demodulation_result);
           demodulation_notcomplete_flag = 0;  
         }
@@ -223,10 +230,9 @@ void AD9220_ConvCpltCallback(void)
     g_adc_dma_done = 1;
 }
 
-/* 串口空闲中断 — 委托 serial 模块 */
-// void UsartReceive_IDLE(UART_HandleTypeDef *huart) {
-//     Serial_RxOnIdle(huart);
-// }
+ void UsartReceive_IDLE(UART_HandleTypeDef *huart) {
+     Serial_RxOnIdle(huart);
+}
 /* USER CODE END 4 */
 
  /* MPU Configuration */
