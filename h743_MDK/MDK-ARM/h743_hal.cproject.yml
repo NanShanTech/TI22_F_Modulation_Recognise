@@ -166,6 +166,7 @@ project:
         - file: ../App/demodulation/demodulation_app.h
         - file: ../App/demodulation/dc_blocker_biquad.h
         - file: ../App/demodulation/dc_blocker_biquad.c
+        - file: ../App/demodulation/decimator_128k_coeffs.h
     - group: adc
       files:
         - file: ../App/adc/ad9220.h

@@ -12,10 +12,14 @@
  * 一、FFT 频谱分析参数
  *===========================================================================*/
 #define FFT_N           4096        // FFT 点数（必须是 2 的幂，最大 16384）
+#define FFT_N_DOWN 512
+#define FFT_N_DOWN_BIAS 256 //重采样后的偏移量,消除滤波器瞬态响应
+#define FFT_N_DOWN_2 (FFT_N_DOWN / 2)
 #if (FFT_N == 0) || ((FFT_N & (FFT_N - 1)) != 0)
 #error "FFT_N must be a power of two"
 #endif
 #define FREQ_S          1024000     // ADC 采样率 (Hz)，需与 TIM3 触发频率匹配
+#define FREQ_S_DOWN 128000
 #define FFT_N_2         (FFT_N / 2) // 频谱有效点数（自动计算，勿改）
 
 #define DC_SCOPE        80          // 直流分量屏蔽范围 (Hz)，低于此频率的幅值清零
@@ -69,6 +73,13 @@
 #define FREQ_START 10000.0f
 #define FREQ_END 300000.0f
 #define CARRIER_FREQ 200000.0f
-#define ENV_CV_GATE 0.08f
-#define FREQ_CV_GATE 0.0177f
+#define ROU_GATE 0.01f 
+#define D_GATE 0.01f //两个最大候选峰值比(dB)
+#define MA_GATE 0.17f //AM调制度需要大于多少
+#define MF_GATE 0.95f //FM调制度需要大于多少
+
+//调制频率参数
+#define MOD_FREQ_START 1000.0f
+#define MOD_FREQ_END 11000.0f
+#define MOD_FREQ_STEP 1000.0f
 #endif /* __APP_CONFIG_H */

@@ -18,7 +18,11 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "ad9910.h"
+#include "adc_task.h"
+#include "app_types.h"
 #include "dma.h"
+#include "stm32h7xx_hal.h"
 #include "tasks.h"
 #include "tim.h"
 #include "usart.h"
@@ -55,7 +59,7 @@
 void SystemClock_Config(void);
 static void MPU_Config(void);
 /* USER CODE BEGIN PFP */
-DemodulationData demodulation_result;
+Wave_Struct demodulation_result;
 uint8_t demodulation_notcomplete_flag = 1;
 /* USER CODE END PFP */
 
@@ -112,12 +116,13 @@ int main(void)
  
   // Tasks_Init(&huart3);
 
-/*   HMI_Init(&g_hmi, &huart3);
-  HMI_SendInitScreen(&g_hmi) */;
+  HMI_Init(&g_hmi, &huart3);
+  HMI_SendInitScreen(&g_hmi) ;
 //  FreqMeasure_Init(&g_freq_measure, &htim2);
 /*   Scheduler_Init() */;
   Init_AD9910();
   AD9910_FreWrite(9800000.0);  
+  AD9910_AmpWrite(20);
   ADC_Task_Init();
    ADC_Task_Start();                 
   /* USER CODE END 2 */
@@ -134,8 +139,14 @@ int main(void)
           App_process();
         }
         if((!ddc_notdone_flag) && demodulation_notcomplete_flag){
+          HAL_Delay(100);
+          ADC_Task_Start();
+          HAL_Delay(500);
           ADC_Task_Stop();
           demodulation_result = do_demodulation();
+          demodulation_result.carrier_freq += 200000.0f;
+          AD9910_FreWrite(demodulation_result.mod_freq);
+          HMI_ReportWave(&g_hmi,&demodulation_result);
           demodulation_notcomplete_flag = 0;  
         }
       }

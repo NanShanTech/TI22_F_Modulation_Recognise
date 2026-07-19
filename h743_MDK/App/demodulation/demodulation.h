@@ -8,6 +8,22 @@ typedef struct {
   ModType_t modetype;
 } DemodulationData;
 
+typedef struct{
+  float32_t freq;
+  float32_t power;
+  float32_t m;
+  float32_t rou;
+  float32_t D;
+} DemodCandidate;
+
+void decimator_128k_init(void);
+
+void decimator_128k_process(const float32_t *pSrc, float32_t *pDst);
+
+DemodCandidate coherence_demodulation(float32_t *pSrc, float32_t freq_start, float32_t freq_stop, float32_t freq_step, float32_t blockSize, float32_t fs_hz);
+
+Wave_Struct determine_modulation_method_coherence(DemodCandidate demode_result_am, DemodCandidate demode_result_fm);
+
 void fir_lpf_100k_init(void);
 
 void fir_lpf_100k_process_block(const float32_t *pSrc, float32_t *pDst);
