@@ -1,2 +1,3 @@
+#include "app_types.h"
 #include "demodulation.h"
-DemodulationData do_demodulation(void);
+Wave_Struct do_demodulation(void);

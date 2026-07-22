@@ -18,9 +18,8 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "adc.h"
+#include "dac.h"
 #include "dma.h"
-#include "stm32h7xx_hal.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
@@ -30,6 +29,8 @@
 #include "app.h"
 #include "demodulation_app.h"
 #include <stdint.h>
+#include "wavefom.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -56,7 +57,7 @@
 void SystemClock_Config(void);
 static void MPU_Config(void);
 /* USER CODE BEGIN PFP */
-DemodulationData demodulation_result;
+Wave_Struct demodulation_result;
 uint8_t demodulation_notcomplete_flag = 1;
 /* USER CODE END PFP */
 
@@ -104,23 +105,25 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_ADC1_Init();
-  MX_TIM3_Init();
   MX_USART3_UART_Init();
   MX_USART1_UART_Init();
+  MX_TIM2_Init();
+  MX_DAC1_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
-/*   Serial_RxInit(&huart3) */;
+  Serial_RxInit(&huart3) ;
 
- 
   // Tasks_Init(&huart3);
-
-/*   HMI_Init(&g_hmi, &huart3);
-  HMI_SendInitScreen(&g_hmi) */;
+  WaveGen_Init();
+  WaveGen_Start(WAVE_SINE, 1000); /* 默认输出 1kHz 正弦波 */
+  HMI_Init(&g_hmi, &huart3);
+  HMI_SendInitScreen(&g_hmi) ;
 //  FreqMeasure_Init(&g_freq_measure, &htim2);
 /*   Scheduler_Init() */;
   Init_AD9910();
   AD9910_FreWrite(9800000.0);  
-  ADC_Task_Init(&htim3, &hadc1);  
+  AD9910_AmpWrite(20);
+  ADC_Task_Init();
    ADC_Task_Start();                 
   /* USER CODE END 2 */
 
@@ -130,13 +133,29 @@ int main(void)
   {
 /*       Scheduler_Run() */;
 
+      /* UART3 指令解析 */
+      if (rx_len >= 2 && rx_buf[0] == 0x11 && rx_buf[1] == 0x11) {
+          ddc_notdone_flag = 1;
+          demodulation_notcomplete_flag = 1;
+      }
+
       /*ADC完成处理*/
-      if (g_adc_dma_done && ddc_notdone_flag) {
+      if (g_adc_dma_done) {
+        if(ddc_notdone_flag){
           App_process();
-      } else if (g_adc_dma_done && demodulation_notcomplete_flag) {
-        ADC_Task_Stop();
-        demodulation_result = do_demodulation();
-        demodulation_notcomplete_flag = 0;  
+        }
+        if((!ddc_notdone_flag) && demodulation_notcomplete_flag){
+          HAL_Delay(100);
+          ADC_Task_Start();
+          HAL_Delay(500);
+          ADC_Task_Stop();
+          demodulation_result = do_demodulation();
+          demodulation_result.carrier_freq += 200000.0f;
+          AD9910_FreWrite(demodulation_result.mod_freq);
+          AD9910_AmpWrite(10000);
+          HMI_ReportWave(&g_hmi,&demodulation_result);
+          demodulation_notcomplete_flag = 0;  
+        }
       }
     /* USER CODE END WHILE */
 
@@ -205,18 +224,15 @@ void SystemClock_Config(void)
 
 /* USER CODE BEGIN 4 */
 
-/* DMA 传输完成回调（DMA_NORMAL 模式，每 FFT_N 点触发一次）*/
-void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc)
+/* DMA normal 模式每采集 FFT_N + 4 点触发一次，FFT 仍使用 FFT_N 点。 */
+void AD9220_ConvCpltCallback(void)
 {
-    if (hadc->Instance == ADC1) {
-        g_adc_dma_done = 1;
-    }
+    g_adc_dma_done = 1;
 }
 
-/* 串口空闲中断 — 委托 serial 模块 */
-// void UsartReceive_IDLE(UART_HandleTypeDef *huart) {
-//     Serial_RxOnIdle(huart);
-// }
+ void UsartReceive_IDLE(UART_HandleTypeDef *huart) {
+     Serial_RxOnIdle(huart);
+}
 /* USER CODE END 4 */
 
  /* MPU Configuration */

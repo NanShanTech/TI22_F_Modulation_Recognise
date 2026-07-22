@@ -17,9 +17,10 @@
             "options": {
                 "cwd": "${workspaceFolder}/",
                 "shell": {
-                    "executable": "/bin/bash",
+                    "executable": "cmd.exe",
                     "args": [
-                        "-c"
+                        "/d",
+                        "/c"
                     ]
                 }
             },
@@ -40,9 +41,10 @@
             "options": {
                 "cwd": "${workspaceFolder}/",
                 "shell": {
-                    "executable": "/bin/bash",
+                    "executable": "cmd.exe",
                     "args": [
-                        "-c"
+                        "/d",
+                        "/c"
                     ]
                 }
             },
@@ -62,9 +64,10 @@
             "options": {
                 "cwd": "${workspaceFolder}/",
                 "shell": {
-                    "executable": "/bin/bash",
+                    "executable": "cmd.exe",
                     "args": [
-                        "-c"
+                        "/d",
+                        "/c"
                     ]
                 }
             },
@@ -89,9 +92,10 @@
             "options": {
                 "cwd": "${workspaceFolder}/",
                 "shell": {
-                    "executable": "/bin/bash",
+                    "executable": "cmd.exe",
                     "args": [
-                        "-c"
+                        "/d",
+                        "/c"
                     ]
                 }
             },

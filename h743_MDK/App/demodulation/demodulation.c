@@ -1,18 +1,30 @@
+#include "app_config.h"
 #include "app_types.h"
 #include "arm_math.h"
 #include "arm_math_types.h"
-#include "dsp/basic_math_functions.h"
-#include "dsp/fast_math_functions.h"
-#include "dsp/statistics_functions.h"
+#include "dsp/filtering_functions.h"
 #include "estimaters.h"
 #include "lpf_fir.h"
 #include <stdint.h>
+#include <math.h>
 #include "demodulation.h"
+#include "app_types.h"
+#include "tasks.h"
+#include "decimator_128k_coeffs.h"
 
 static arm_fir_instance_f32 fir_instance;
+static arm_fir_decimate_instance_f32 decimator_128k;
 void fir_lpf_100k_init(void) {
   arm_fir_init_f32(&fir_instance, FIR_NUM_TAPS, fir_coeffs, fir_state_buffer,
                    FIR_BLOCK_SIZE);
+}
+
+void decimator_128k_init(void){
+  arm_fir_decimate_init_f32(&decimator_128k, DECIMATOR_128K_NUM_TAPS, DECIMATOR_128K_M, decimator_128k_coeffs, decimator_128k_state, DECIMATOR_128K_INPUT_BLOCK_SIZE);
+}
+
+void decimator_128k_process(const float32_t *pSrc, float32_t *pDst){
+  arm_fir_decimate_f32(&decimator_128k, pSrc, pDst, DECIMATOR_128K_INPUT_BLOCK_SIZE);
 }
 
 void fir_lpf_100k_process_block(const float32_t *pSrc, float32_t *pDst) {
@@ -73,6 +85,94 @@ ModType_t determine_modulation_method(float32_t *pEnvelope, float32_t *pFreq,
   } else {
     return MOD_CW;
   }
+}
+
+DemodCandidate coherence_demodulation(float32_t *pSrc, float32_t freq_start, float32_t freq_stop, float32_t freq_step, float32_t blockSize, float32_t fs_hz){
+  uint32_t freq_start_bin = (uint32_t)(freq_start / freq_step);
+  uint32_t freq_stop_bin = (uint32_t)(freq_stop / freq_step + 1);
+  float32_t p_max = 0;
+  float32_t p_sub_max = 0;
+  uint32_t max_freq,sub_max_freq;
+  for (float32_t i=freq_start;i<freq_stop;i+=freq_step){
+    float32_t ck_sum = 0;
+    float32_t sk_sum = 0;
+    for (uint32_t j=0;j<blockSize;j++){
+      ck_sum += pSrc[j] * arm_cos_f32(2 * PI * i * (float32_t)j / fs_hz);
+      sk_sum += pSrc[j] * arm_sin_f32(2 * PI * i * (float32_t)j / fs_hz);
+    }
+    float32_t p_sum = (ck_sum * ck_sum) + (sk_sum * sk_sum);
+    if(p_max < p_sum){
+      p_max = p_sum;
+      max_freq = i;
+    } else if(p_sub_max < p_sum){
+      p_sub_max = p_sum;
+      sub_max_freq = i;
+    }
+  }
+  float32_t m;// 调制度
+  m = sqrtf(p_max) * 2 / blockSize; 
+  float32_t x_n_sum = 0;
+  for (uint32_t i=0; i<blockSize;i++){
+    x_n_sum += pSrc[i] * pSrc[i];
+  }
+  float32_t rou = 2 * p_max /  (x_n_sum + 1e-9);
+  float32_t d = 10 * log10f((p_max + 1e-9) / (p_sub_max + 1e-9));
+  DemodCandidate out = {
+    .freq = max_freq,
+    .power = p_max,
+    .rou = rou,
+    .D = d,
+    .m = m,
+  };
+  return out;
+}
+
+Wave_Struct determine_modulation_method_coherence(DemodCandidate demode_result_am, DemodCandidate demode_result_fm){  
+  Wave_Struct out = {
+    .mod_type = MOD_CW,
+    .carrier_freq = freq_lo,
+    .mod_freq = freq_lo + 200000.0f,
+    .mod_depth = 0,
+    .mod_vpp = 0
+  };
+  uint8_t check_rou_and_d = 0;
+  uint8_t is_modulated = 0;
+  DemodCandidate modulation_result;
+  float32_t am_m = demode_result_am.m;
+  am_m *= 2;
+  if(am_m >= 0.6){
+    am_m -= 0.13;
+  } else if(am_m >= 0.5){
+    am_m -= 0.07;
+  } else if (am_m >= 0.4) {
+    am_m -= 0.08;
+  } else if(am_m >= 0.3){
+    am_m -= 0.055;
+  } else{
+    am_m -= 0.045;
+  }
+  float32_t fm_m = demode_result_fm.m / demode_result_fm.freq;
+  if (am_m > MA_GATE){
+    modulation_result = demode_result_am;
+    out.mod_type = MOD_AM;
+    out.mod_depth = am_m;
+  } else if(fm_m > MF_GATE){
+    modulation_result = demode_result_fm;
+    out.mod_type = MOD_FM;
+    out.mod_depth = fm_m;
+   }
+  if (out.mod_type != MOD_CW){
+    float32_t rou = modulation_result.rou;
+    float32_t d = modulation_result.D;
+    if (rou < ROU_GATE || d < D_GATE){
+      out.mod_type = MOD_CW;
+      out.mod_depth = 0;
+    }
+    else{
+      out.mod_freq = modulation_result.freq;
+    }
+  }
+  return out;
 }
 
 DemodulationData demodulation(float32_t *pEnvelope, float32_t *pFreq,

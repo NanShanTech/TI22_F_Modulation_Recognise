@@ -8,6 +8,7 @@
 #include "app_config.h"
 #include <stdio.h>
 #include <stdarg.h>
+#include "main.h"
 
 /* ================================================================
  * 一、通用 UART 传输（带错误恢复）
@@ -56,13 +57,14 @@ void Serial_Printf(UART_HandleTypeDef *huart, uint32_t timeout, const char *fmt,
  * 二、UART 中断接收（空闲中断）
  * ================================================================ */
 
-static uint8_t  rx_buf[RX_BUF_SIZE];
-static uint16_t rx_len;
+uint8_t  rx_buf[RX_BUF_SIZE];
+uint16_t rx_len;
 
 void Serial_RxInit(UART_HandleTypeDef *huart)
 {
     HAL_UARTEx_ReceiveToIdle_IT(huart, rx_buf, RX_BUF_SIZE);
 }
+
 
 void Serial_RxOnIdle(UART_HandleTypeDef *huart)
 {
@@ -197,6 +199,18 @@ void HMI_ReportWave(HMI_Comm *self, Wave_Struct *wave)
     }
     HMI_SendStr(self, "t7.txt", buf);
 
+
+         
+            float fm_dev = wave->mod_depth * wave->mod_freq;
+            if (fm_dev < 1000.0f) {
+                  snprintf(buf, sizeof(buf), "%.2f Hz", (double)fm_dev);
+            } else if (fm_dev < 1000000.0f) {
+                snprintf(buf, sizeof(buf), "%.2f KHz", (double)fm_dev / 1000.0);
+             } else {
+                  snprintf(buf, sizeof(buf), "%.2f MHz", (double)fm_dev / 1000000.0);
+              }
+             HMI_SendStr(self, "t11.txt", buf);
+             
     // /* ---- VOFA 上位机 (USART1) ---- */
     // Serial_Printf(&huart1, 50,
     //     "Mod:%s Depth:%.1f%% Fc:%.1f Fm:%.1f\r\n",

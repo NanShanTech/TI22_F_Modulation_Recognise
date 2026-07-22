@@ -61,8 +61,7 @@ void App_process(void)
             freq_index += 9.8e6;
             freq_lo = freq_index;
             AD9910_FreWrite((double)freq_index);
-            HAL_Delay(100);
-            ADC_Task_Start();
+            AD9910_AmpWrite(20);
             ddc_notdone_flag = 0;
             g_sweep_freq_hz = 9800000.0f;
             return;
@@ -70,6 +69,7 @@ void App_process(void)
     } else {
         ddc_notdone_flag = 1;
         AD9910_FreWrite((double)g_sweep_freq_hz);
+        AD9910_AmpWrite(20);
         g_sweep_freq_hz += 500000.0f;      
         ADC_Task_Start();//重开 ADC 
         HAL_Delay(100);

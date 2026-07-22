@@ -5,7 +5,7 @@
 #define FIR_COEFF_LEN 28U /* padded to multiple of 4 for Helium */
 #define FIR_BLOCK_SIZE FFT_N
 #define FIR_STATE_LEN (FIR_NUM_TAPS + 2 * FIR_BLOCK_SIZE - 1)
-static float32_t fir_state_buffer[FIR_STATE_LEN];;
+static __attribute__((section(".AXI_SRAM"))) float32_t fir_state_buffer[FIR_STATE_LEN];
 static const float32_t fir_coeffs[FIR_COEFF_LEN] =
 {
     3.9228037349e-04f,

@@ -19,6 +19,7 @@ project:
         - ../App/comm
         - ../App/dac
         - ../App/dds
+        - ../App/demodulation
         - ../App/fft
         - ../App/measure
         - ../App/task
@@ -88,16 +89,14 @@ project:
       files:
         - file: ../Core/Src/main.c
         - file: ../Core/Src/gpio.c
-        - file: ../Core/Src/adc.c
         - file: ../Core/Src/dma.c
         - file: ../Core/Src/tim.c
         - file: ../Core/Src/usart.c
         - file: ../Core/Src/stm32h7xx_it.c
         - file: ../Core/Src/stm32h7xx_hal_msp.c
+        - file: ../Core/Src/dac.c
     - group: Drivers/STM32H7xx_HAL_Driver
       files:
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.c
-        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.c
         - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc.c
         - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_rcc_ex.c
         - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_flash.c
@@ -119,6 +118,8 @@ project:
         - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_tim_ex.c
         - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart.c
         - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_uart_ex.c
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac.c
+        - file: ../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_dac_ex.c
     - group: Drivers/CMSIS
       files:
         - file: ../Core/Src/system_stm32h7xx.c
@@ -130,12 +131,12 @@ project:
       files:
         - file: ../App/dds/ad9910.c
         - file: ../App/dds/ad9910.h
-        - file: ../App/dds/ad9959.c
-        - file: ../App/dds/ad9959.h
         - file: ../App/utils/delay.c
         - file: ../App/utils/delay.h
         - file: ../App/comm/serial.c
         - file: ../App/comm/serial.h
+        - file: ../App/waveform.c
+        - file: ../App/wavefom.h
     - group: Task
       files:
         - file: ../App/task/adc_task.c
@@ -171,6 +172,11 @@ project:
         - file: ../App/demodulation/demodulation_app.h
         - file: ../App/demodulation/dc_blocker_biquad.h
         - file: ../App/demodulation/dc_blocker_biquad.c
+        - file: ../App/demodulation/decimator_128k_coeffs.h
+    - group: adc
+      files:
+        - file: ../App/adc/ad9220.h
+        - file: ../App/adc/ad9220.c
   components:
     - component: ARM::CMSIS:CORE
     - component: CMSIS:DSP&Source

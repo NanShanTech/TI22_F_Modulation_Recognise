@@ -58,15 +58,10 @@ void MX_GPIO_Init(void)
                           |GPIO_PIN_10|AD9910_PWR_Pin|AD9910_RST_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, AD9910_DRO_Pin|AD9959_UPDATE_Pin|AD9959_SP3_Pin|AD9959_CS_Pin
-                          |AD9959_SDIO0_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(AD9910_DRO_GPIO_Port, AD9910_DRO_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOD, AD9959_SP0_Pin|AD9959_PDC_Pin|AD9959_SP1_Pin|AD9959_RESET_Pin
-                          |AD9959_SP2_Pin|AD9910_OSK_Pin|AD9910_IOUP_Pin|AD9910_DRC_Pin, GPIO_PIN_RESET);
-
-  /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, AD9959_SCLK_Pin|AD9959_SDIO1_Pin|AD9959_SDIO3_Pin|AD9959_SDIO2_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOD, AD9910_OSK_Pin|AD9910_IOUP_Pin|AD9910_DRC_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, AD9910_PF0_Pin|AD9910_PF1_Pin|AD9910_PF2_Pin, GPIO_PIN_RESET);
@@ -87,30 +82,29 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : AD9910_DRO_Pin AD9959_UPDATE_Pin AD9959_SP3_Pin AD9959_CS_Pin
-                           AD9959_SDIO0_Pin */
-  GPIO_InitStruct.Pin = AD9910_DRO_Pin|AD9959_UPDATE_Pin|AD9959_SP3_Pin|AD9959_CS_Pin
-                          |AD9959_SDIO0_Pin;
+  /*Configure GPIO pin : AD9910_DRO_Pin */
+  GPIO_InitStruct.Pin = AD9910_DRO_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(AD9910_DRO_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : D0_Pin D1_Pin D2_Pin D3_Pin
+                           D4_Pin D5_Pin D6_Pin D7_Pin
+                           D8_Pin D9_Pin D10_Pin D11_Pin */
+  GPIO_InitStruct.Pin = D0_Pin|D1_Pin|D2_Pin|D3_Pin
+                          |D4_Pin|D5_Pin|D6_Pin|D7_Pin
+                          |D8_Pin|D9_Pin|D10_Pin|D11_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : AD9959_SP0_Pin AD9959_PDC_Pin AD9959_SP1_Pin AD9959_RESET_Pin
-                           AD9959_SP2_Pin AD9910_OSK_Pin AD9910_IOUP_Pin AD9910_DRC_Pin */
-  GPIO_InitStruct.Pin = AD9959_SP0_Pin|AD9959_PDC_Pin|AD9959_SP1_Pin|AD9959_RESET_Pin
-                          |AD9959_SP2_Pin|AD9910_OSK_Pin|AD9910_IOUP_Pin|AD9910_DRC_Pin;
+  /*Configure GPIO pins : AD9910_OSK_Pin AD9910_IOUP_Pin AD9910_DRC_Pin */
+  GPIO_InitStruct.Pin = AD9910_OSK_Pin|AD9910_IOUP_Pin|AD9910_DRC_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : AD9959_SCLK_Pin AD9959_SDIO1_Pin AD9959_SDIO3_Pin AD9959_SDIO2_Pin */
-  GPIO_InitStruct.Pin = AD9959_SCLK_Pin|AD9959_SDIO1_Pin|AD9959_SDIO3_Pin|AD9959_SDIO2_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : AD9910_PF0_Pin AD9910_PF1_Pin AD9910_PF2_Pin */
   GPIO_InitStruct.Pin = AD9910_PF0_Pin|AD9910_PF1_Pin|AD9910_PF2_Pin;
